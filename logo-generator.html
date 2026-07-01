@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Generador de Logos — Herramienta Local</title>
+<meta name="description" content="Genera logos para tu startup directamente en tu navegador, sin conexión a internet ni servidores externos." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0b1220; --panel:#111a2b; --panel-2:#0e1626; --border:#20304a;
+    --text:#e8edf6; --muted:#8ea0bd; --primary:#6c8bff; --primary-2:#9a6bff;
+    --radius:0.6rem; --font: 'Inter', sans-serif; --mono:'Space Mono', monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font);
+    min-height:100vh; line-height:1.5;
+  }
+  header{
+    padding:1.5rem 1.5rem 1rem; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+  }
+  header h1{ font-size:1.25rem; font-weight:700; letter-spacing:-0.01em; }
+  header h1 span{ color:var(--primary); }
+  header p{ font-size:0.8rem; color:var(--muted); margin-top:0.25rem; }
+  .badge-local{
+    font-family:var(--mono); font-size:0.7rem; color:#7ee2a8; background:rgba(126,226,168,0.12);
+    border:1px solid rgba(126,226,168,0.3); padding:0.3rem 0.6rem; border-radius:1rem; white-space:nowrap;
+  }
+
+  .layout{ display:grid; grid-template-columns:22rem 1fr; gap:0; min-height:calc(100vh - 4.5rem); }
+
+  .controls{
+    background:var(--panel); border-right:1px solid var(--border);
+    padding:1.5rem; overflow-y:auto; max-height:calc(100vh - 4.5rem);
+  }
+  .section{ margin-bottom:1.75rem; }
+  .section h2{
+    font-family:var(--mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--primary); margin-bottom:0.75rem;
+  }
+  label.field{ display:block; margin-bottom:0.75rem; }
+  label.field span{ display:block; font-size:0.75rem; color:var(--muted); margin-bottom:0.35rem; }
+  input[type=text], select{
+    width:100%; background:var(--panel-2); border:1px solid var(--border); color:var(--text);
+    padding:0.55rem 0.7rem; border-radius:0.4rem; font-family:var(--font); font-size:0.9rem;
+  }
+  input[type=text]:focus, select:focus{ outline:none; border-color:var(--primary); }
+
+  .icon-grid{
+    display:grid; grid-template-columns:repeat(5, 1fr); gap:0.4rem;
+  }
+  .icon-btn{
+    aspect-ratio:1; background:var(--panel-2); border:1px solid var(--border); border-radius:0.4rem;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s;
+  }
+  .icon-btn svg{ width:60%; height:60%; }
+  .icon-btn:hover{ border-color:var(--primary); }
+  .icon-btn.active{ border-color:var(--primary); background:rgba(108,139,255,0.15); }
+
+  .option-row{ display:flex; gap:0.4rem; flex-wrap:wrap; }
+  .pill{
+    flex:1; min-width:4.5rem; text-align:center; padding:0.5rem 0.5rem; font-size:0.78rem;
+    background:var(--panel-2); border:1px solid var(--border); border-radius:0.4rem; cursor:pointer; transition:all .15s;
+  }
+  .pill:hover{ border-color:var(--primary); }
+  .pill.active{ border-color:var(--primary); background:rgba(108,139,255,0.15); color:#fff; }
+
+  .palette-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0.5rem; margin-bottom:0.75rem; }
+  .palette-swatch{
+    border:1px solid var(--border); border-radius:0.4rem; padding:0.4rem; cursor:pointer; transition:border-color .15s;
+    display:flex; flex-direction:column; gap:0.25rem;
+  }
+  .palette-swatch:hover, .palette-swatch.active{ border-color:var(--primary); }
+  .swatch-dots{ display:flex; gap:0.25rem; }
+  .swatch-dots i{ width:0.9rem; height:0.9rem; border-radius:50%; display:block; border:1px solid rgba(255,255,255,0.15); }
+  .palette-swatch small{ font-size:0.65rem; color:var(--muted); }
+
+  .color-row{ display:flex; gap:0.6rem; align-items:center; margin-bottom:0.6rem; }
+  .color-row label{ font-size:0.78rem; color:var(--muted); flex:1; }
+  .color-row input[type=color]{
+    width:2.5rem; height:2rem; padding:0; border:1px solid var(--border); border-radius:0.3rem; background:none; cursor:pointer;
+  }
+  .checkbox-row{ display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--muted); margin-bottom:0.5rem; }
+
+  input[type=range]{ width:100%; accent-color: var(--primary); }
+
+  .btn{
+    width:100%; padding:0.7rem 1rem; border-radius:0.4rem; border:none; cursor:pointer;
+    font-family:var(--font); font-weight:600; font-size:0.85rem; transition:all .15s;
+    display:flex; align-items:center; justify-content:center; gap:0.5rem;
+  }
+  .btn-primary{ background:linear-gradient(135deg, var(--primary), var(--primary-2)); color:#fff; }
+  .btn-primary:hover{ filter:brightness(1.1); }
+  .btn-outline{ background:transparent; border:1px solid var(--border); color:var(--text); }
+  .btn-outline:hover{ border-color:var(--primary); }
+  .btn + .btn{ margin-top:0.5rem; }
+
+  .preview-area{
+    padding:2rem; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:1.5rem;
+    overflow-y:auto; max-height:calc(100vh - 4.5rem);
+  }
+  .preview-card{
+    width:100%; max-width:44rem; background:
+      repeating-conic-gradient(#f2f2f2 0% 25%, #ffffff 0% 50%) 50% / 22px 22px;
+    border-radius:0.75rem; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; padding:2.5rem; min-height:20rem;
+  }
+  .preview-card.opaque-bg{ background: var(--current-bg, #ffffff); }
+  #logoPreview svg{ max-width:100%; height:auto; display:block; }
+
+  .export-panel{
+    width:100%; max-width:44rem; background:var(--panel); border:1px solid var(--border);
+    border-radius:0.75rem; padding:1.25rem 1.5rem;
+  }
+  .export-panel h3{ font-size:0.85rem; margin-bottom:0.9rem; color:var(--muted); font-family:var(--mono); letter-spacing:0.05em; text-transform:uppercase; }
+  .export-row{ display:flex; gap:0.75rem; flex-wrap:wrap; }
+  .export-row .btn{ width:auto; flex:1; min-width:9rem; }
+  .export-size{ margin-bottom:0.9rem; }
+  .export-size select{ max-width:12rem; }
+  .hint{ font-size:0.75rem; color:var(--muted); margin-top:0.9rem; line-height:1.6; }
+
+  @media (max-width: 900px){
+    .layout{ grid-template-columns:1fr; }
+    .controls{ max-height:none; border-right:none; border-bottom:1px solid var(--border); }
+    .preview-area{ max-height:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Generador de <span>Logos</span></h1>
+    <p>Diseña el logo de tu startup en segundos, directo en tu navegador.</p>
+  </div>
+  <span class="badge-local">100% local · sin internet · sin servidores</span>
+</header>
+
+<div class="layout">
+  <aside class="controls">
+
+    <div class="section">
+      <h2>// Texto</h2>
+      <label class="field">
+        <span>Nombre de tu startup</span>
+        <input type="text" id="brandName" value="Nova" maxlength="24" />
+      </label>
+      <label class="field">
+        <span>Eslogan (opcional)</span>
+        <input type="text" id="tagline" value="Ideas en movimiento" maxlength="40" />
+      </label>
+    </div>
+
+    <div class="section">
+      <h2>// Ícono</h2>
+      <div class="icon-grid" id="iconGrid"></div>
+    </div>
+
+    <div class="section">
+      <h2>// Insignia</h2>
+      <div class="option-row" id="badgeOptions">
+        <div class="pill" data-badge="circle">Círculo</div>
+        <div class="pill" data-badge="square">Cuadro</div>
+        <div class="pill" data-badge="hexagon">Hexágono</div>
+        <div class="pill" data-badge="none">Sin insignia</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>// Disposición</h2>
+      <div class="option-row" id="layoutOptions">
+        <div class="pill" data-layout="icon-left">Ícono + texto</div>
+        <div class="pill" data-layout="icon-top">Ícono arriba</div>
+        <div class="pill" data-layout="icon-only">Solo ícono</div>
+        <div class="pill" data-layout="text-only">Solo texto</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>// Tipografía</h2>
+      <label class="field">
+        <select id="fontSelect">
+          <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+          <option value="'Poppins', sans-serif">Poppins</option>
+          <option value="'Montserrat', sans-serif">Montserrat</option>
+          <option value="'Inter', sans-serif">Inter</option>
+          <option value="'Playfair Display', serif">Playfair Display</option>
+          <option value="'Outfit', sans-serif">Outfit</option>
+          <option value="'Sora', sans-serif">Sora</option>
+          <option value="'Manrope', sans-serif">Manrope</option>
+          <option value="'Space Mono', monospace">Space Mono</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="section">
+      <h2>// Colores</h2>
+      <div class="palette-grid" id="paletteGrid"></div>
+      <div class="color-row">
+        <label>Acento (ícono/insignia)</label>
+        <input type="color" id="accentColor" value="#6c8bff" />
+      </div>
+      <div class="color-row">
+        <label>Texto</label>
+        <input type="color" id="textColor" value="#0f172a" />
+      </div>
+      <div class="color-row">
+        <label>Fondo del lienzo</label>
+        <input type="color" id="bgColor" value="#ffffff" />
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="transparentBg" checked />
+        <label for="transparentBg">Fondo transparente (recomendado para exportar)</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>// Ajustes</h2>
+      <label class="field">
+        <span>Tamaño del ícono</span>
+        <input type="range" id="iconScale" min="0.6" max="1.5" step="0.05" value="1" />
+      </label>
+      <label class="field">
+        <span>Redondez de esquinas (insignia cuadrada)</span>
+        <input type="range" id="cornerRadius" min="0" max="50" step="1" value="18" />
+      </label>
+    </div>
+
+    <div class="section">
+      <button class="btn btn-outline" id="randomizeBtn">🎲 Sorpréndeme</button>
+    </div>
+
+  </aside>
+
+  <section class="preview-area">
+    <div class="preview-card" id="previewCard">
+      <div id="logoPreview"></div>
+    </div>
+
+    <div class="export-panel">
+      <h3>// Exportar</h3>
+      <label class="field export-size">
+        <span>Tamaño de exportación (PNG)</span>
+        <select id="exportSize">
+          <option value="800">Pequeño (~800px de ancho)</option>
+          <option value="1600" selected>Mediano (~1600px de ancho)</option>
+          <option value="2400">Grande (~2400px de ancho)</option>
+        </select>
+      </label>
+      <div class="export-row">
+        <button class="btn btn-primary" id="downloadPng">⬇ Descargar PNG</button>
+        <button class="btn btn-outline" id="downloadSvg">⬇ Descargar SVG</button>
+        <button class="btn btn-outline" id="copySvg">📋 Copiar código SVG</button>
+      </div>
+      <p class="hint">Este archivo funciona completamente sin conexión: ábrelo desde tu computadora con doble clic. Todo el diseño y la exportación se procesan en tu navegador; nada se sube a internet. Las fuentes de Google solo se cargan si tienes conexión, y si no, se usa una alternativa del sistema.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  // ---------- helpers ----------
+  function polygonPoints(cx, cy, r, sides, rotationDeg){
+    const pts = [];
+    for(let i=0;i<sides;i++){
+      const angle = (Math.PI*2*i/sides) + rotationDeg*Math.PI/180;
+      pts.push((cx+r*Math.cos(angle)).toFixed(2)+','+(cy+r*Math.sin(angle)).toFixed(2));
+    }
+    return pts.join(' ');
+  }
+  function starPoints(cx, cy, rOuter, rInner, points, rotationDeg){
+    const pts = [];
+    for(let i=0;i<points*2;i++){
+      const r = i%2===0 ? rOuter : rInner;
+      const angle = (Math.PI*i/points) + rotationDeg*Math.PI/180;
+      pts.push((cx+r*Math.cos(angle)).toFixed(2)+','+(cy+r*Math.sin(angle)).toFixed(2));
+    }
+    return pts.join(' ');
+  }
+  function esc(str){
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ---------- icon library (24x24 viewBox, {{C}} = color placeholder) ----------
+  const ICONS = {
+    bolt:    { name:'Rayo',        markup:`<polygon points="13,2 3,14 12,14 11,22 21,10 12,10" fill="{{C}}"/>` },
+    circle:  { name:'Círculo',     markup:`<circle cx="12" cy="12" r="9" fill="{{C}}"/>` },
+    square:  { name:'Cuadro',      markup:`<rect x="3" y="3" width="18" height="18" rx="5" fill="{{C}}"/>` },
+    triangle:{ name:'Montaña',     markup:`<polygon points="12,2 22,20 2,20" fill="{{C}}"/>` },
+    diamond: { name:'Diamante',    markup:`<polygon points="12,2 22,12 12,22 2,12" fill="{{C}}"/>` },
+    hexagon: { name:'Hexágono',    markup:`<polygon points="${polygonPoints(12,12,10,6,-90)}" fill="{{C}}"/>` },
+    star:    { name:'Estrella',    markup:`<polygon points="${starPoints(12,12,10,4,5,-90)}" fill="{{C}}"/>` },
+    plus:    { name:'Cruz',        markup:`<path d="M10 2 H14 V10 H22 V14 H14 V22 H10 V14 H2 V10 H10 Z" fill="{{C}}"/>` },
+    shield:  { name:'Escudo',      markup:`<path d="M12,2 L21,6 L21,13 L12,22 L3,13 L3,6 Z" fill="{{C}}"/>` },
+    target:  { name:'Diana',       markup:`<circle cx="12" cy="12" r="9" fill="none" stroke="{{C}}" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="{{C}}" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="{{C}}"/>` },
+    layers:  { name:'Capas',       markup:`<polygon points="12,2 2,7 12,12 22,7" fill="{{C}}"/><polyline points="2,12 12,17 22,12" fill="none" stroke="{{C}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="2,17 12,22 22,17" fill="none" stroke="{{C}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>` },
+    growth:  { name:'Crecimiento', markup:`<polyline points="3,17 10,10 14,14 21,5" fill="none" stroke="{{C}}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="21,11 21,5 15,5" fill="none" stroke="{{C}}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>` },
+    code:    { name:'Código',      markup:`<polyline points="8,6 2,12 8,18" fill="none" stroke="{{C}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16,6 22,12 16,18" fill="none" stroke="{{C}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>` },
+    chat:    { name:'Chat',        markup:`<path d="M21,15 a2,2 0 0 1 -2,2 H7 l-4,4 V5 a2,2 0 0 1 2,-2 H19 a2,2 0 0 1 2,2 Z" fill="{{C}}"/>` },
+    orbit:   { name:'Órbita',      markup:`<circle cx="12" cy="12" r="2.5" fill="{{C}}"/><ellipse cx="12" cy="12" rx="10" ry="4.2" fill="none" stroke="{{C}}" stroke-width="1.6" transform="rotate(45 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" fill="none" stroke="{{C}}" stroke-width="1.6" transform="rotate(-45 12 12)"/>` },
+    wave:    { name:'Onda',        markup:`<path d="M2,15 C6,7 9,7 12,15 C15,23 18,23 22,15" fill="none" stroke="{{C}}" stroke-width="2.5" stroke-linecap="round"/>` },
+    leaf:    { name:'Hoja',        markup:`<path d="M4,20 C4,10 11,3 21,3 C21,13 14,20 4,20 Z" fill="{{C}}"/>` }
+  };
+
+  // ---------- color palettes (accent, text, background) ----------
+  const PALETTES = [
+    { name:'Atardecer', accent:'#f97316', text:'#1f2937', bg:'#ffffff' },
+    { name:'Océano',    accent:'#0ea5e9', text:'#0f172a', bg:'#ffffff' },
+    { name:'Bosque',    accent:'#16a34a', text:'#14532d', bg:'#ffffff' },
+    { name:'Baya',      accent:'#db2777', text:'#1f2937', bg:'#ffffff' },
+    { name:'Medianoche',accent:'#f59e0b', text:'#f8fafc', bg:'#0f172a' },
+    { name:'Monocromo', accent:'#111827', text:'#111827', bg:'#ffffff' },
+    { name:'Violeta',   accent:'#7c3aed', text:'#1f2937', bg:'#ffffff' },
+    { name:'Coral',     accent:'#ef4444', text:'#1f2937', bg:'#ffffff' }
+  ];
+
+  const FONTS = ["'Space Grotesk', sans-serif","'Poppins', sans-serif","'Montserrat', sans-serif","'Inter', sans-serif","'Playfair Display', serif","'Outfit', sans-serif","'Sora', sans-serif","'Manrope', sans-serif","'Space Mono', monospace"];
+
+  // ---------- state ----------
+  const state = {
+    text: 'Nova',
+    tagline: 'Ideas en movimiento',
+    icon: 'bolt',
+    badge: 'circle',
+    layout: 'icon-left',
+    font: FONTS[0],
+    accent: '#6c8bff',
+    textColor: '#0f172a',
+    bgColor: '#ffffff',
+    transparentBg: true,
+    iconScale: 1,
+    cornerRadius: 18
+  };
+
+  // ---------- build icon picker ----------
+  const iconGrid = document.getElementById('iconGrid');
+  Object.keys(ICONS).forEach(key => {
+    const btn = document.createElement('div');
+    btn.className = 'icon-btn';
+    btn.dataset.icon = key;
+    btn.title = ICONS[key].name;
+    btn.innerHTML = `<svg viewBox="0 0 24 24">${ICONS[key].markup.replace(/\{\{C\}\}/g,'#dbe4ff')}</svg>`;
+    btn.addEventListener('click', () => { state.icon = key; syncIconGrid(); render(); });
+    iconGrid.appendChild(btn);
+  });
+  function syncIconGrid(){
+    [...iconGrid.children].forEach(el => el.classList.toggle('active', el.dataset.icon === state.icon));
+  }
+
+  // ---------- build palette picker ----------
+  const paletteGrid = document.getElementById('paletteGrid');
+  PALETTES.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'palette-swatch';
+    el.innerHTML = `<div class="swatch-dots"><i style="background:${p.accent}"></i><i style="background:${p.text}"></i><i style="background:${p.bg}"></i></div><small>${p.name}</small>`;
+    el.addEventListener('click', () => {
+      state.accent = p.accent; state.textColor = p.text; state.bgColor = p.bg;
+      document.getElementById('accentColor').value = p.accent;
+      document.getElementById('textColor').value = p.text;
+      document.getElementById('bgColor').value = p.bg;
+      syncPaletteGrid(el);
+      render();
+    });
+    paletteGrid.appendChild(el);
+  });
+  function syncPaletteGrid(activeEl){
+    [...paletteGrid.children].forEach(el => el.classList.remove('active'));
+    if(activeEl) activeEl.classList.add('active');
+  }
+
+  // ---------- badge / layout pills ----------
+  function wirePills(containerId, stateKey){
+    const container = document.getElementById(containerId);
+    [...container.children].forEach(pill => {
+      pill.addEventListener('click', () => {
+        state[stateKey] = pill.dataset[stateKey === 'badge' ? 'badge' : 'layout'];
+        [...container.children].forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        render();
+      });
+    });
+  }
+  wirePills('badgeOptions', 'badge');
+  wirePills('layoutOptions', 'layout');
+
+  // ---------- form field bindings ----------
+  const brandNameInput = document.getElementById('brandName');
+  const taglineInput = document.getElementById('tagline');
+  const fontSelect = document.getElementById('fontSelect');
+  const accentColorInput = document.getElementById('accentColor');
+  const textColorInput = document.getElementById('textColor');
+  const bgColorInput = document.getElementById('bgColor');
+  const transparentBgInput = document.getElementById('transparentBg');
+  const iconScaleInput = document.getElementById('iconScale');
+  const cornerRadiusInput = document.getElementById('cornerRadius');
+
+  brandNameInput.addEventListener('input', () => { state.text = brandNameInput.value || 'Nova'; render(); });
+  taglineInput.addEventListener('input', () => { state.tagline = taglineInput.value; render(); });
+  fontSelect.addEventListener('change', () => { state.font = fontSelect.value; render(); });
+  accentColorInput.addEventListener('input', () => { state.accent = accentColorInput.value; syncPaletteGrid(null); render(); });
+  textColorInput.addEventListener('input', () => { state.textColor = textColorInput.value; syncPaletteGrid(null); render(); });
+  bgColorInput.addEventListener('input', () => { state.bgColor = bgColorInput.value; syncPaletteGrid(null); render(); });
+  transparentBgInput.addEventListener('change', () => { state.transparentBg = transparentBgInput.checked; render(); });
+  iconScaleInput.addEventListener('input', () => { state.iconScale = parseFloat(iconScaleInput.value); render(); });
+  cornerRadiusInput.addEventListener('input', () => { state.cornerRadius = parseFloat(cornerRadiusInput.value); render(); });
+
+  // ---------- badge shape markup ----------
+  function badgeMarkup(type, cx, cy, r, color, cornerPct){
+    if(type === 'none') return '';
+    if(type === 'circle') return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}"/>`;
+    if(type === 'square'){
+      const side = r*1.8;
+      const rx = (cornerPct/100) * (side/2);
+      return `<rect x="${cx-side/2}" y="${cy-side/2}" width="${side}" height="${side}" rx="${rx.toFixed(2)}" fill="${color}"/>`;
+    }
+    if(type === 'hexagon') return `<polygon points="${polygonPoints(cx,cy,r*1.08,6,-90)}" fill="${color}"/>`;
+    return '';
+  }
+
+  function iconGroup(key, cx, cy, size, color){
+    const scale = size/24;
+    const inner = ICONS[key].markup.replace(/\{\{C\}\}/g, color);
+    return `<g transform="translate(${(cx-size/2).toFixed(2)},${(cy-size/2).toFixed(2)}) scale(${scale.toFixed(4)})">${inner}</g>`;
+  }
+
+  // ---------- main render ----------
+  function render(){
+    const s = state;
+    const hasBadge = s.badge !== 'none';
+    const iconColor = hasBadge ? '#ffffff' : s.accent;
+    let width, height, parts = [];
+
+    if(s.layout === 'icon-left'){
+      width = 640; height = s.tagline ? 200 : 160;
+      const cx = 100, cy = height/2, badgeR = 62 * s.iconScale;
+      parts.push(badgeMarkup(s.badge, cx, cy, badgeR, s.accent, s.cornerRadius));
+      parts.push(iconGroup(s.icon, cx, cy, badgeR*1.05, iconColor));
+      const textX = 190;
+      if(s.tagline){
+        parts.push(`<text x="${textX}" y="${cy-6}" font-family="${s.font}" font-size="46" font-weight="700" fill="${s.textColor}">${esc(s.text)}</text>`);
+        parts.push(`<text x="${textX}" y="${cy+34}" font-family="${s.font}" font-size="19" font-weight="400" fill="${s.textColor}" opacity="0.65">${esc(s.tagline)}</text>`);
+      } else {
+        parts.push(`<text x="${textX}" y="${cy+16}" font-family="${s.font}" font-size="46" font-weight="700" fill="${s.textColor}">${esc(s.text)}</text>`);
+      }
+    } else if(s.layout === 'icon-top'){
+      width = 420; height = s.tagline ? 320 : 280;
+      const cx = width/2, cy = 100, badgeR = 70 * s.iconScale;
+      parts.push(badgeMarkup(s.badge, cx, cy, badgeR, s.accent, s.cornerRadius));
+      parts.push(iconGroup(s.icon, cx, cy, badgeR*1.05, iconColor));
+      parts.push(`<text x="${cx}" y="${cy+120}" text-anchor="middle" font-family="${s.font}" font-size="40" font-weight="700" fill="${s.textColor}">${esc(s.text)}</text>`);
+      if(s.tagline){
+        parts.push(`<text x="${cx}" y="${cy+156}" text-anchor="middle" font-family="${s.font}" font-size="18" font-weight="400" fill="${s.textColor}" opacity="0.65">${esc(s.tagline)}</text>`);
+      }
+    } else if(s.layout === 'icon-only'){
+      width = 240; height = 240;
+      const cx = width/2, cy = height/2, badgeR = 95 * s.iconScale;
+      parts.push(badgeMarkup(s.badge, cx, cy, badgeR, s.accent, s.cornerRadius));
+      parts.push(iconGroup(s.icon, cx, cy, badgeR*1.05, iconColor));
+    } else { // text-only
+      width = 560; height = s.tagline ? 180 : 140;
+      const cx = width/2;
+      if(s.tagline){
+        parts.push(`<text x="${cx}" y="80" text-anchor="middle" font-family="${s.font}" font-size="48" font-weight="700" fill="${s.textColor}">${esc(s.text)}</text>`);
+        parts.push(`<text x="${cx}" y="118" text-anchor="middle" font-family="${s.font}" font-size="20" font-weight="400" fill="${s.textColor}" opacity="0.65">${esc(s.tagline)}</text>`);
+      } else {
+        parts.push(`<text x="${cx}" y="${height/2+16}" text-anchor="middle" font-family="${s.font}" font-size="48" font-weight="700" fill="${s.textColor}">${esc(s.text)}</text>`);
+      }
+    }
+
+    const bgRect = s.transparentBg ? '' : `<rect x="0" y="0" width="${width}" height="${height}" fill="${s.bgColor}"/>`;
+    const svgMarkup = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">${bgRect}${parts.join('')}</svg>`;
+
+    document.getElementById('logoPreview').innerHTML = svgMarkup;
+    document.getElementById('previewCard').classList.toggle('opaque-bg', !s.transparentBg);
+    document.getElementById('previewCard').style.setProperty('--current-bg', s.bgColor);
+  }
+
+  // ---------- randomize ----------
+  document.getElementById('randomizeBtn').addEventListener('click', () => {
+    const iconKeys = Object.keys(ICONS);
+    const badges = ['circle','square','hexagon','none'];
+    const layouts = ['icon-left','icon-top','icon-only','text-only'];
+    const palette = PALETTES[Math.floor(Math.random()*PALETTES.length)];
+
+    state.icon = iconKeys[Math.floor(Math.random()*iconKeys.length)];
+    state.badge = badges[Math.floor(Math.random()*badges.length)];
+    state.layout = layouts[Math.floor(Math.random()*layouts.length)];
+    state.font = FONTS[Math.floor(Math.random()*FONTS.length)];
+    state.accent = palette.accent; state.textColor = palette.text; state.bgColor = palette.bg;
+
+    syncIconGrid();
+    fontSelect.value = state.font;
+    accentColorInput.value = state.accent;
+    textColorInput.value = state.textColor;
+    bgColorInput.value = state.bgColor;
+    [...document.getElementById('badgeOptions').children].forEach(p => p.classList.toggle('active', p.dataset.badge === state.badge));
+    [...document.getElementById('layoutOptions').children].forEach(p => p.classList.toggle('active', p.dataset.layout === state.layout));
+
+    render();
+  });
+
+  // ---------- export ----------
+  function sanitizeFilename(str){
+    return (str || 'logo').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'logo';
+  }
+  function currentSvgElement(){
+    return document.querySelector('#logoPreview svg');
+  }
+  function triggerDownload(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  document.getElementById('downloadSvg').addEventListener('click', () => {
+    const svgEl = currentSvgElement();
+    const svgString = '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(svgEl);
+    const blob = new Blob([svgString], { type: 'image/svg+xml' });
+    triggerDownload(blob, sanitizeFilename(state.text) + '-logo.svg');
+  });
+
+  document.getElementById('copySvg').addEventListener('click', async () => {
+    const svgEl = currentSvgElement();
+    const svgString = new XMLSerializer().serializeToString(svgEl);
+    try {
+      await navigator.clipboard.writeText(svgString);
+      const btn = document.getElementById('copySvg');
+      const original = btn.textContent;
+      btn.textContent = '✓ Copiado';
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    } catch(e){
+      alert('No se pudo copiar automáticamente. Usa "Descargar SVG" en su lugar.');
+    }
+  });
+
+  document.getElementById('downloadPng').addEventListener('click', () => {
+    const svgEl = currentSvgElement();
+    const viewBox = svgEl.getAttribute('viewBox').split(' ').map(Number);
+    const vw = viewBox[2], vh = viewBox[3];
+    const targetWidth = parseInt(document.getElementById('exportSize').value, 10);
+    const targetHeight = Math.round(targetWidth * (vh/vw));
+
+    const svgString = new XMLSerializer().serializeToString(svgEl);
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = targetWidth; canvas.height = targetHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,targetWidth,targetHeight);
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(blob => {
+        triggerDownload(blob, sanitizeFilename(state.text) + '-logo.png');
+      }, 'image/png');
+    };
+    img.onerror = () => { alert('No se pudo generar el PNG. Intenta con "Descargar SVG".'); URL.revokeObjectURL(url); };
+    img.src = url;
+  });
+
+  // ---------- init ----------
+  syncIconGrid();
+  [...document.getElementById('badgeOptions').children].forEach(p => p.classList.toggle('active', p.dataset.badge === state.badge));
+  [...document.getElementById('layoutOptions').children].forEach(p => p.classList.toggle('active', p.dataset.layout === state.layout));
+  render();
+})();
+</script>
+
+</body>
+</html>
