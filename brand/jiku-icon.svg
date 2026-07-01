@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Jiku">
+  <defs>
+    <linearGradient id="jikuIconGrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#2547ff"/>
+      <stop offset="0.55" stop-color="#2f7bff"/>
+      <stop offset="1" stop-color="#28d7ef"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="116" fill="#0d1b2a"/>
+  <path d="M 250 150 L 355 150 L 355 322 Q 355 390 281 390 Q 220 390 211 330"
+        fill="none" stroke="url(#jikuIconGrad)" stroke-width="58"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

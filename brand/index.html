@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jiku Solutions — Kit de marca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',system-ui,sans-serif;background:#eef2f8;color:#0d1b2a;padding:3rem 1.5rem;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{font-size:1.5rem;font-weight:800;margin-bottom:0.25rem;}
+  .sub{color:#5b6b82;font-size:0.9rem;margin-bottom:2.5rem;}
+  h2{font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:#2f7bff;margin:2.5rem 0 1rem;font-weight:600;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;}
+  .tile{border-radius:16px;padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;min-height:260px;border:1px solid #dbe3ef;}
+  .tile.light{background:#ffffff;}
+  .tile.dark{background:#0d1b2a;border-color:#1e2d44;}
+  .tile.tint{background:linear-gradient(135deg,#2547ff,#28d7ef);}
+  .tile img{max-width:100%;max-height:200px;}
+  .tile span{font-size:0.72rem;color:#8090a6;}
+  .tile.dark span{color:#6b7d99;}
+  .tile.tint span{color:#e6f0ff;}
+  .sizes{display:flex;align-items:flex-end;gap:2rem;flex-wrap:wrap;background:#fff;border:1px solid #dbe3ef;border-radius:16px;padding:2rem;}
+  .sizes .s{display:flex;flex-direction:column;align-items:center;gap:0.6rem;}
+  .sizes img{display:block;}
+  .sizes small{font-size:0.7rem;color:#8090a6;}
+  .swatches{display:flex;gap:1rem;flex-wrap:wrap;}
+  .sw{border-radius:12px;overflow:hidden;border:1px solid #dbe3ef;width:150px;}
+  .sw .c{height:70px;}
+  .sw .m{padding:0.6rem 0.75rem;background:#fff;font-size:0.72rem;}
+  .sw .m b{display:block;font-family:monospace;color:#0d1b2a;}
+  .sw .m span{color:#8090a6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Jiku Solutions — Kit de marca</h1>
+  <p class="sub">Logo vectorial rediseñado. Escalable, editable y nítido a cualquier tamaño.</p>
+
+  <h2>Logo principal</h2>
+  <div class="grid">
+    <div class="tile light"><img src="jiku-logo.svg" alt="Logo Jiku sobre fondo claro" /><span>Fondo claro</span></div>
+    <div class="tile dark"><img src="jiku-logo-dark.svg" alt="Logo Jiku sobre fondo oscuro" /><span>Fondo oscuro</span></div>
+  </div>
+
+  <h2>Símbolo / App icon</h2>
+  <div class="grid">
+    <div class="tile light"><img src="jiku-icon.svg" alt="Icono Jiku" style="max-height:150px" /><span>Icono (favicon / app)</span></div>
+    <div class="tile tint"><img src="jiku-icon.svg" alt="Icono Jiku" style="max-height:150px" /><span>Sobre color de marca</span></div>
+  </div>
+
+  <h2>Prueba de escala (nitidez)</h2>
+  <div class="sizes">
+    <div class="s"><img src="jiku-icon.svg" width="96" alt="" /><small>96px</small></div>
+    <div class="s"><img src="jiku-icon.svg" width="48" alt="" /><small>48px</small></div>
+    <div class="s"><img src="jiku-icon.svg" width="32" alt="" /><small>32px</small></div>
+    <div class="s"><img src="jiku-icon.svg" width="16" alt="" /><small>16px (favicon)</small></div>
+  </div>
+
+  <h2>Colores de marca</h2>
+  <div class="swatches">
+    <div class="sw"><div class="c" style="background:#2547ff"></div><div class="m"><b>#2547FF</b><span>Azul base</span></div></div>
+    <div class="sw"><div class="c" style="background:#2f7bff"></div><div class="m"><b>#2F7BFF</b><span>Azul medio</span></div></div>
+    <div class="sw"><div class="c" style="background:#28d7ef"></div><div class="m"><b>#28D7EF</b><span>Cian</span></div></div>
+    <div class="sw"><div class="c" style="background:#0d1b2a"></div><div class="m"><b>#0D1B2A</b><span>Navy (texto)</span></div></div>
+  </div>
+</div>
+</body>
+</html>
