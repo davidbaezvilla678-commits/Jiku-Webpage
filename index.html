@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peak AI</title>
+  <meta name="description" content="Agencia de automatización impulsada por IA que escala negocios locales mediante chatbots, redes sociales y optimización de procesos." />
+  <meta property="og:title" content="Peak AI" />
+  <meta property="og:description" content="Agencia de automatización impulsada por IA que escala negocios locales mediante chatbots, redes sociales y optimización de procesos." />
+  <meta property="og:image" content="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/efe6dc942_ChatGPTImageMay18202606_05_34PM.png/v1/fill/w_1200,h_630/efe6dc942_ChatGPTImageMay18202606_05_34PM.png" />
+  <meta property="og:url" content="https://peakaiservices.base44.app" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/4e328bc8b_ChatGPTImageMay18202606_05_34PM.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --background: hsl(213, 45%, 10%);
+      --foreground: hsl(42, 40%, 90%);
+      --card: hsl(213, 40%, 13%);
+      --card-foreground: hsl(42, 40%, 90%);
+      --primary: hsl(9, 68%, 47%);
+      --primary-hover: hsl(9, 68%, 40%);
+      --secondary: hsl(213, 35%, 17%);
+      --muted-foreground: hsl(42, 20%, 55%);
+      --accent: hsl(213, 35%, 20%);
+      --border: hsl(213, 30%, 18%);
+      --radius: 0.5rem;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── UTILITIES ── */
+    .container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .mono-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.875rem 2rem;
+      border-radius: 0.125rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: hsl(42, 40%, 95%);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: scale(1.03);
+      box-shadow: 0 10px 30px hsla(9, 68%, 47%, 0.25);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid hsla(213, 30%, 18%, 0.8);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--secondary);
+      border-color: hsla(9, 68%, 47%, 0.3);
+    }
+
+    .btn svg {
+      transition: transform 0.3s ease;
+    }
+    .btn:hover svg {
+      transform: translateX(3px);
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background-color: hsla(213, 45%, 10%, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 4rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+    }
+
+    .nav-logo img {
+      height: 2rem;
+      width: auto;
+    }
+
+    .nav-logo-text {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.05em;
+      color: var(--foreground);
+    }
+
+    .nav-logo-text span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--foreground);
+    }
+
+    .nav-cta {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.875rem;
+    }
+
+    .nav-mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content {
+      max-width: 36rem;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--foreground);
+      margin-top: 1.25rem;
+    }
+
+    .hero-title span {
+      color: var(--primary);
+    }
+
+    .hero-desc {
+      font-size: 1.125rem;
+      color: var(--muted-foreground);
+      margin-top: 1.5rem;
+      line-height: 1.75;
+      max-width: 32rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 26rem;
+      border-radius: 1rem;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+    }
+
+    /* Hero background blobs */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .hero-blob-1 {
+      width: 40rem;
+      height: 40rem;
+      background: var(--primary);
+      top: -10rem;
+      right: -10rem;
+    }
+
+    .hero-blob-2 {
+      width: 24rem;
+      height: 24rem;
+      background: hsl(213, 60%, 40%);
+      bottom: 0;
+      left: -8rem;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    /* ── SERVICES ── */
+    #servicios {
+      padding: 6rem 0 8rem;
+      position: relative;
+    }
+
+    .section-header {
+      max-width: 38rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(1.875rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--foreground);
+      margin-top: 1rem;
+    }
+
+    .section-header p {
+      color: var(--muted-foreground);
+      margin-top: 1rem;
+      line-height: 1.75;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .service-card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--primary), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .service-card:hover {
+      border-color: hsla(9, 68%, 47%, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-icon {
+      width: 3rem;
+      height: 3rem;
+      background: hsla(9, 68%, 47%, 0.12);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .service-icon svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--primary);
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--foreground);
+      margin-bottom: 0.75rem;
+    }
+
+    .service-card > p {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+
+    .service-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.625rem;
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+    }
+
+    .feature-dot {
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: 50%;
+      background: var(--primary);
+      flex-shrink: 0;
+      margin-top: 0.4rem;
+    }
+
+    /* ── WHY PEAK ── */
+    #porque {
+      padding: 6rem 0;
+      background-color: hsla(213, 35%, 17%, 0.6);
+      position: relative;
+    }
+
+    .why-header {
+      text-align: center;
+      max-width: 38rem;
+      margin: 0 auto 4rem;
+    }
+
+    .why-header h2 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(1.875rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--foreground);
+      margin-top: 1rem;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .why-card {
+      background: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color 0.3s;
+    }
+
+    .why-card:hover {
+      border-color: hsla(9, 68%, 47%, 0.3);
+    }
+
+    .why-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: hsla(9, 68%, 47%, 0.12);
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .why-icon svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .why-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .why-card p {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      line-height: 1.75;
+    }
+
+    /* ── CONTACT ── */
+    #contacto {
+      padding: 6rem 0 8rem;
+      text-align: center;
+    }
+
+    .contact-inner {
+      max-width: 42rem;
+      margin: 0 auto;
+    }
+
+    .contact-inner h2 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(1.875rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--foreground);
+      margin-top: 1.25rem;
+    }
+
+    .contact-inner p {
+      color: var(--muted-foreground);
+      margin-top: 1.25rem;
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    .contact-inner .btn {
+      margin-top: 2.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .footer-brand h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.625rem;
+    }
+
+    .footer-brand h3 span {
+      color: var(--primary);
+    }
+
+    .footer-brand p {
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      line-height: 1.75;
+      max-width: 20rem;
+    }
+
+    .footer-links h4 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--foreground);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-links li a {
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      transition: color 0.2s;
+    }
+
+    .footer-links li a:hover {
+      color: var(--foreground);
+    }
+
+    .footer-contact h4 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--foreground);
+      margin-bottom: 1rem;
+    }
+
+    .footer-contact a {
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      display: block;
+      transition: color 0.2s;
+      margin-bottom: 0.375rem;
+    }
+
+    .footer-contact a:hover {
+      color: var(--foreground);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+
+    .footer-tagline {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: hsl(213, 30%, 30%);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-image {
+        display: none;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-mobile-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.35s; opacity: 0; }
+    .delay-4 { animation-delay: 0.5s; opacity: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">
+        <img src="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/db409e7fa_ChatGPTImageMay18202606_05_34PM.png" alt="Peak AI Logo" />
+        <span class="nav-logo-text">PEAK <span>AI</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#porque">Por qué Peak</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#contacto" class="btn btn-primary nav-cta">Agenda una consulta</a>
+      <button class="nav-mobile-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-eyebrow mono-label fade-in-up">// Automatización con IA</div>
+        <h1 class="hero-title fade-in-up delay-1">
+          Lleva tu negocio <span>a la cima</span>
+        </h1>
+        <p class="hero-desc fade-in-up delay-2">
+          Automatizamos las tareas que te roban tiempo para que puedas enfocarte en lo que más importa: hacer crecer tu negocio.
+        </p>
+        <div class="hero-actions fade-in-up delay-3">
+          <a href="#contacto" class="btn btn-primary">
+            Agenda tu consulta gratis
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#servicios" class="btn btn-outline">Ver servicios</a>
+        </div>
+      </div>
+      <div class="hero-image fade-in-up delay-4">
+        <img
+          src="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/db409e7fa_ChatGPTImageMay18202606_05_34PM.png"
+          alt="Peak AI"
+        />
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SERVICES -->
+  <section id="servicios">
+    <div class="container">
+      <div class="section-header">
+        <span class="mono-label">// Servicios</span>
+        <h2>Todo lo que tu negocio necesita para crecer</h2>
+        <p>Tres módulos diseñados para negocios locales que quieren competir con las grandes marcas sin perder su esencia.</p>
+      </div>
+      <div class="services-grid">
+
+        <!-- Módulo de Presencia -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <h3>Módulo de Presencia</h3>
+          <p>Tu marca visible las 24 horas. Diseñamos tu página web y gestionamos tus redes sociales con inteligencia artificial.</p>
+          <ul class="service-features">
+            <li><span class="feature-dot"></span>Página web optimizada para conversión</li>
+            <li><span class="feature-dot"></span>Contenido para redes generado con IA</li>
+            <li><span class="feature-dot"></span>Programación y publicación automática</li>
+            <li><span class="feature-dot"></span>Análisis de rendimiento mensual</li>
+          </ul>
+        </div>
+
+        <!-- Módulo de Atención -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3>Módulo de Atención</h3>
+          <p>Un asistente virtual que atiende, responde y agenda por ti. Tus clientes reciben atención instantánea, sin esperas.</p>
+          <ul class="service-features">
+            <li><span class="feature-dot"></span>Chatbot inteligente en tu web y WhatsApp</li>
+            <li><span class="feature-dot"></span>Respuestas personalizadas a cada cliente</li>
+            <li><span class="feature-dot"></span>Reservas y citas automatizadas</li>
+            <li><span class="feature-dot"></span>Disponible 24/7, sin costo extra de personal</li>
+          </ul>
+        </div>
+
+        <!-- Módulo de Optimización -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
+            </svg>
+          </div>
+          <h3>Módulo de Optimización</h3>
+          <p>Elimina las tareas repetitivas que te roban tiempo. Automatizamos tus procesos internos para que te enfoques en crecer.</p>
+          <ul class="service-features">
+            <li><span class="feature-dot"></span>Facturación y recordatorios automáticos</li>
+            <li><span class="feature-dot"></span>Seguimiento de clientes y leads</li>
+            <li><span class="feature-dot"></span>Integración con tus herramientas actuales</li>
+            <li><span class="feature-dot"></span>Reportes inteligentes de tu negocio</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- WHY PEAK -->
+  <section id="porque">
+    <div class="divider" style="position:absolute;top:0;left:0;right:0;"></div>
+    <div class="container">
+      <div class="why-header">
+        <span class="mono-label">// Por qué Peak</span>
+        <h2>La agencia que entiende tu negocio</h2>
+      </div>
+      <div class="why-grid">
+
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+          </div>
+          <h3>Pensado para ti</h3>
+          <p>No somos una agencia genérica. Cada solución se diseña para las necesidades reales de tu negocio local.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="m13 2-2 2.5h3L12 7"/><path d="M10 14v-3"/><path d="M14 14v-3"/><path d="M11 19H6.9a2.9 2.9 0 0 1 0-5.8A2.9 2.9 0 0 1 12 10a2.9 2.9 0 0 1 5.1 3.2H17a3 3 0 0 1 0 6h-3"/><path d="M12 19v3"/>
+            </svg>
+          </div>
+          <h3>Resultados rápidos</h3>
+          <p>En menos de 2 semanas tu negocio ya tiene presencia digital profesional y automatizaciones funcionando.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Sin complicaciones</h3>
+          <p>Tú manejas tu negocio, nosotros nos encargamos de la tecnología. Sin jerga técnica, sin dolores de cabeza.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">
+            <svg viewBox="0 0 24 24">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+            </svg>
+          </div>
+          <h3>Crece sin límites</h3>
+          <p>Nuestras soluciones escalan contigo. Desde tu primer chatbot hasta la automatización total de tu operación.</p>
+        </div>
+
+      </div>
+    </div>
+    <div class="divider" style="position:absolute;bottom:0;left:0;right:0;"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contacto">
+    <div class="container">
+      <div class="contact-inner">
+        <span class="mono-label">// Contacto</span>
+        <h2>¿Listo para llevar tu negocio<br />a la cima?</h2>
+        <p>Agenda una consulta gratuita de 30 minutos. Analizamos tu negocio y te mostramos exactamente cómo la automatización puede ahorrarte tiempo y dinero.</p>
+        <a href="mailto:hola@peakai.com" class="btn btn-primary">
+          Contáctanos para una consulta gratis
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h3>PEAK <span>AI</span></h3>
+          <p>Agencia de automatización con inteligencia artificial para negocios locales que quieren crecer sin complicaciones.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#porque">Por qué Peak</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contacto</h4>
+          <a href="mailto:hola@peakai.com">hola@peakai.com</a>
+          <a href="mailto:peakaiservices@gmail.com">peakaiservices@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Peak AI. Todos los derechos reservados.</p>
+        <span class="footer-tagline">Automatización para el mundo real.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const toggle = document.querySelector('.nav-mobile-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => {
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '4rem';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'hsl(213, 45%, 10%)';
+        navLinks.style.padding = '1.5rem';
+        navLinks.style.borderBottom = '1px solid hsl(213, 30%, 18%)';
+      });
+    }
+
+    // Intersection observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.service-card, .why-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
