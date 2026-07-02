@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --background:hsl(213,45%,10%);
+    --foreground:hsl(42,40%,90%);
+    --primary:hsl(9,68%,47%);
+    --blue:hsl(213,60%,40%);
+    --muted:hsl(42,20%,55%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1920px;height:600px;overflow:hidden;background:var(--background);
+    font-family:'Space Grotesk',sans-serif;position:relative}
+
+  /* diagonal panels */
+  .panel{position:absolute;top:0;bottom:0}
+  .p1{right:0;width:760px;background:hsl(213,40%,13%);
+    clip-path:polygon(240px 0,100% 0,100% 100%,0 100%)}
+  .p2{right:0;width:560px;background:hsla(213,60%,40%,.25);
+    clip-path:polygon(200px 0,100% 0,100% 100%,0 100%)}
+  .p3{right:0;width:330px;background:var(--primary);
+    clip-path:polygon(130px 0,100% 0,100% 100%,0 100%)}
+  .edge{position:absolute;top:0;bottom:0;width:2px;background:hsla(42,40%,90%,.25);
+    transform:skewX(-21.8deg)}
+
+  /* circuit lines */
+  svg.circuit{position:absolute;inset:0}
+
+  .content{position:absolute;left:140px;top:50%;transform:translateY(-50%);max-width:900px;z-index:5}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;
+    color:var(--primary);letter-spacing:.25em;text-transform:uppercase;margin-bottom:28px}
+  h1{font-size:92px;font-weight:700;line-height:1.02;letter-spacing:-0.02em;color:var(--foreground)}
+  h1 span{color:var(--primary)}
+  .desc{font-size:24px;color:var(--muted);margin-top:24px;line-height:1.6;max-width:660px}
+  .cta{display:inline-flex;align-items:center;gap:12px;margin-top:40px;
+    background:var(--primary);color:hsl(42,40%,95%);font-weight:600;font-size:22px;
+    padding:18px 40px;border-radius:2px;letter-spacing:.03em}
+  .cta svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round}
+
+  .chip{position:absolute;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;
+    letter-spacing:.2em;color:hsl(42,40%,92%);border:1px solid hsla(42,40%,90%,.35);
+    padding:10px 18px;z-index:6;background:hsla(213,45%,10%,.35)}
+</style>
+</head>
+<body>
+  <div class="panel p1"></div>
+  <div class="panel p2"></div>
+  <div class="panel p3"></div>
+
+  <svg class="circuit" viewBox="0 0 1920 600" fill="none">
+    <!-- circuit traces flowing into diagonal -->
+    <path d="M1020 120 H1330 L1420 210 H1710" stroke="hsla(42,40%,90%,0.35)" stroke-width="2"/>
+    <path d="M1060 480 H1300 L1380 390 H1660" stroke="hsla(42,40%,90%,0.35)" stroke-width="2"/>
+    <path d="M1120 300 H1450" stroke="hsla(9,68%,60%,0.6)" stroke-width="2"/>
+    <circle cx="1020" cy="120" r="6" fill="hsl(213,60%,55%)"/>
+    <circle cx="1060" cy="480" r="6" fill="hsl(213,60%,55%)"/>
+    <circle cx="1120" cy="300" r="6" fill="hsl(9,68%,55%)"/>
+    <circle cx="1710" cy="210" r="6" fill="hsl(42,40%,90%)"/>
+    <circle cx="1660" cy="390" r="6" fill="hsl(42,40%,90%)"/>
+    <circle cx="1450" cy="300" r="6" fill="hsl(42,40%,90%)"/>
+    <!-- floating squares -->
+    <rect x="1240" y="70" width="20" height="20" stroke="hsla(42,40%,90%,0.4)" fill="none"/>
+    <rect x="1550" y="490" width="14" height="14" fill="hsla(42,40%,90%,0.35)"/>
+    <rect x="980" y="380" width="12" height="12" fill="hsla(9,68%,47%,0.6)"/>
+    <!-- dotted ascent on red panel -->
+    <polyline points="1680,560 1750,480 1800,505 1860,400 1900,330" stroke="hsl(42,40%,92%)" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+    <circle cx="1900" cy="330" r="7" fill="hsl(42,40%,92%)"/>
+  </svg>
+
+  <span class="chip" style="right:110px;top:64px">PEAK AI</span>
+  <span class="chip" style="right:340px;bottom:64px;border-color:hsla(42,40%,90%,.5)">24/7 · IA</span>
+
+  <div class="content">
+    <div class="eyebrow">// Automatización con IA</div>
+    <h1>Lleva tu negocio<br/><span>a la cima</span></h1>
+    <p class="desc">Chatbots, redes sociales y procesos automatizados para negocios locales.</p>
+    <span class="cta">Agenda tu consulta gratis
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </span>
+  </div>
+</body>
+</html>

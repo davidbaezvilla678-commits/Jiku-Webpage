@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --background:hsl(213,45%,10%);
+    --foreground:hsl(42,40%,90%);
+    --primary:hsl(9,68%,47%);
+    --blue:hsl(213,60%,40%);
+    --muted:hsl(42,20%,55%);
+    --border:hsl(213,30%,18%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1920px;height:600px;overflow:hidden;background:var(--background);
+    font-family:'Space Grotesk',sans-serif;position:relative}
+
+  /* mono grid */
+  .grid{position:absolute;inset:0;
+    background-image:
+      linear-gradient(to right, hsla(213,30%,25%,.25) 1px, transparent 1px),
+      linear-gradient(to bottom, hsla(213,30%,25%,.25) 1px, transparent 1px);
+    background-size:80px 80px;}
+  .grid::after{content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at 30% 50%, transparent 20%, var(--background) 85%);}
+
+  .content{position:absolute;left:140px;top:50%;transform:translateY(-50%);max-width:820px;z-index:3}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;
+    color:var(--primary);letter-spacing:.25em;text-transform:uppercase;margin-bottom:28px}
+  h1{font-size:88px;font-weight:700;line-height:1.02;letter-spacing:-0.02em;color:var(--foreground)}
+  h1 span{color:var(--primary)}
+  .desc{font-size:24px;color:var(--muted);margin-top:24px;line-height:1.6;max-width:640px}
+  .cta{display:inline-flex;align-items:center;gap:12px;margin-top:40px;
+    background:var(--primary);color:hsl(42,40%,95%);font-weight:600;font-size:22px;
+    padding:18px 40px;border-radius:2px;letter-spacing:.03em}
+  .cta svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round}
+
+  /* geometric peak — layered triangles */
+  .art{position:absolute;right:60px;bottom:0;width:820px;height:600px;z-index:2}
+  .glow{position:absolute;width:520px;height:520px;border-radius:50%;
+    background:var(--primary);filter:blur(140px);opacity:.14;right:60px;top:60px}
+
+  .plus{position:absolute;font-family:'Space Mono',monospace;color:hsla(42,20%,55%,.5);font-size:26px}
+  .sq{position:absolute;border:1px solid hsla(9,68%,47%,.55)}
+  .sq.fill{background:hsla(9,68%,47%,.18);border:none}
+  .tick{position:absolute;font-family:'Space Mono',monospace;font-size:15px;
+    color:hsla(42,20%,55%,.65);letter-spacing:.15em}
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow"></div>
+
+  <!-- geometric peak art -->
+  <svg class="art" viewBox="0 0 820 600" fill="none">
+    <!-- back mountain -->
+    <polygon points="240,600 520,140 800,600" fill="hsla(213,60%,40%,0.22)" stroke="hsla(213,60%,55%,0.5)" stroke-width="1.5"/>
+    <!-- mid mountain -->
+    <polygon points="60,600 340,220 620,600" fill="hsla(213,40%,16%,0.9)" stroke="hsla(213,30%,30%,0.8)" stroke-width="1.5"/>
+    <!-- front peak (primary) -->
+    <polygon points="300,600 520,190 740,600" fill="hsla(9,68%,47%,0.9)"/>
+    <polygon points="520,190 455,310 490,290 520,320 555,285 585,310" fill="hsla(42,40%,92%,0.92)"/>
+    <!-- wire outline duplicate offset -->
+    <polygon points="300,600 520,190 740,600" fill="none" stroke="hsla(42,40%,90%,0.35)" stroke-width="1.5" transform="translate(-14,-12)"/>
+    <!-- summit marker -->
+    <circle cx="520" cy="190" r="8" fill="hsl(42,40%,92%)"/>
+    <circle cx="520" cy="190" r="18" fill="none" stroke="hsla(42,40%,92%,0.5)" stroke-width="1.5"/>
+    <line x1="520" y1="190" x2="520" y2="96" stroke="hsla(42,40%,90%,0.6)" stroke-width="1.5" stroke-dasharray="4 6"/>
+    <!-- ascent path -->
+    <polyline points="90,560 220,470 320,500 420,360 520,190" stroke="hsl(42,40%,90%)" stroke-width="2.5" stroke-dasharray="2 10" stroke-linecap="round"/>
+    <circle cx="220" cy="470" r="5" fill="hsl(9,68%,47%)"/>
+    <circle cx="420" cy="360" r="5" fill="hsl(9,68%,47%)"/>
+  </svg>
+
+  <span class="tick" style="right:120px;top:78px">// PICO.01</span>
+  <span class="plus" style="right:750px;top:120px">+</span>
+  <span class="plus" style="right:110px;bottom:180px">+</span>
+  <div class="sq" style="width:22px;height:22px;right:820px;bottom:120px"></div>
+  <div class="sq fill" style="width:14px;height:14px;right:180px;top:200px"></div>
+
+  <div class="content">
+    <div class="eyebrow">// Automatización con IA</div>
+    <h1>Lleva tu negocio<br/><span>a la cima</span></h1>
+    <p class="desc">Chatbots, redes sociales y procesos automatizados para negocios locales.</p>
+    <span class="cta">Agenda tu consulta gratis
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </span>
+  </div>
+</body>
+</html>

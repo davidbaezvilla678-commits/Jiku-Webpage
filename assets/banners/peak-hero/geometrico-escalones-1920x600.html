@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --background:hsl(213,45%,10%);
+    --foreground:hsl(42,40%,90%);
+    --primary:hsl(9,68%,47%);
+    --blue:hsl(213,60%,40%);
+    --muted:hsl(42,20%,55%);
+    --border:hsl(213,30%,18%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1920px;height:600px;overflow:hidden;background:var(--background);
+    font-family:'Space Grotesk',sans-serif;position:relative}
+
+  /* dot grid */
+  .dots{position:absolute;inset:0;
+    background-image:radial-gradient(hsla(213,30%,35%,.45) 1.5px, transparent 1.5px);
+    background-size:44px 44px}
+  .dots::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(to right, var(--background) 0%, transparent 45%, transparent 70%, var(--background) 100%),
+               linear-gradient(to top, transparent 55%, var(--background) 100%)}
+
+  .content{position:absolute;left:140px;top:50%;transform:translateY(-50%);max-width:860px;z-index:5}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;
+    color:var(--primary);letter-spacing:.25em;text-transform:uppercase;margin-bottom:28px}
+  h1{font-size:88px;font-weight:700;line-height:1.02;letter-spacing:-0.02em;color:var(--foreground)}
+  h1 span{color:var(--primary)}
+  .desc{font-size:24px;color:var(--muted);margin-top:24px;line-height:1.6;max-width:640px}
+  .cta{display:inline-flex;align-items:center;gap:12px;margin-top:40px;
+    background:var(--primary);color:hsl(42,40%,95%);font-weight:600;font-size:22px;
+    padding:18px 40px;border-radius:2px;letter-spacing:.03em}
+  .cta svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round}
+
+  /* ascending steps */
+  .steps{position:absolute;right:120px;bottom:0;display:flex;align-items:flex-end;gap:22px;z-index:4}
+  .step{width:112px;position:relative;border:1px solid hsla(213,30%,30%,.9);
+    border-bottom:none;background:linear-gradient(to top, hsl(213,40%,13%), hsl(213,38%,16%))}
+  .step .cap{position:absolute;top:0;left:0;right:0;height:4px;background:hsla(213,60%,45%,.8)}
+  .step.hot{background:linear-gradient(to top, hsla(9,68%,40%,.9), hsl(9,68%,47%))}
+  .step.hot .cap{background:hsl(42,40%,92%)}
+  .step .label{position:absolute;top:-34px;left:50%;transform:translateX(-50%);
+    font-family:'Space Mono',monospace;font-size:14px;color:var(--muted);letter-spacing:.1em;white-space:nowrap}
+  .step.hot .label{color:hsl(42,40%,92%);top:18px;font-weight:700}
+
+  .flagline{position:absolute;right:178px;bottom:520px;z-index:4;width:2px;height:56px;
+    background:hsl(42,40%,90%)}
+  .flag{position:absolute;right:118px;bottom:548px;z-index:4;
+    font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:hsl(213,45%,10%);
+    background:hsl(42,40%,90%);padding:5px 12px;letter-spacing:.15em}
+
+  .baseline{position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:linear-gradient(to right, transparent, hsla(213,30%,35%,.9), transparent)}
+</style>
+</head>
+<body>
+  <div class="dots"></div>
+
+  <!-- ascending steps → summit -->
+  <div class="steps">
+    <div class="step" style="height:120px"><span class="cap"></span><span class="label">web</span></div>
+    <div class="step" style="height:200px"><span class="cap"></span><span class="label">redes</span></div>
+    <div class="step" style="height:290px"><span class="cap"></span><span class="label">chatbot 24/7</span></div>
+    <div class="step" style="height:390px"><span class="cap"></span><span class="label">procesos</span></div>
+    <div class="step hot" style="height:460px"><span class="cap"></span><span class="label">tu negocio</span></div>
+  </div>
+  <div class="flagline" style="bottom:460px;height:48px"></div>
+  <div class="flag" style="bottom:508px">CIMA</div>
+  <div class="baseline"></div>
+
+  <div class="content">
+    <div class="eyebrow">// Automatización con IA</div>
+    <h1>Lleva tu negocio<br/><span>a la cima</span></h1>
+    <p class="desc">Chatbots, redes sociales y procesos automatizados para negocios locales.</p>
+    <span class="cta">Agenda tu consulta gratis
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </span>
+  </div>
+</body>
+</html>
