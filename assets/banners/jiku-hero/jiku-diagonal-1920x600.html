@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --ink:#111318;
+    --gray:#5b6472;
+    --blue-100:#e9f2fc;
+    --blue-200:#cfe3f9;
+    --blue-300:#7fb8f0;
+    --blue-500:#2e7cd6;
+    --blue-700:#1d4fa8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1920px;height:600px;overflow:hidden;background:#fff;
+    font-family:'Poppins',sans-serif;position:relative}
+
+  .panel{position:absolute;top:0;bottom:0}
+  .p1{right:0;width:780px;background:var(--blue-100);
+    clip-path:polygon(240px 0,100% 0,100% 100%,0 100%)}
+  .p2{right:0;width:570px;background:var(--blue-300);
+    clip-path:polygon(200px 0,100% 0,100% 100%,0 100%)}
+  .p3{right:0;width:340px;background:linear-gradient(160deg,var(--blue-500),var(--blue-700));
+    clip-path:polygon(130px 0,100% 0,100% 100%,0 100%)}
+
+  svg.circuit{position:absolute;inset:0}
+
+  .logo{position:absolute;left:120px;top:48px;width:300px;height:120px;
+    background-image:url('logo-oficial.png');
+    background-size:600px 600px;background-position:-174px -234px;background-repeat:no-repeat}
+
+  .content{position:absolute;left:140px;top:58%;transform:translateY(-50%);max-width:880px;z-index:5}
+  .eyebrow{font-size:19px;font-weight:600;color:var(--blue-500);
+    letter-spacing:.28em;text-transform:uppercase;margin-bottom:24px}
+  h1{font-size:74px;font-weight:700;line-height:1.06;letter-spacing:-0.01em;color:var(--ink)}
+  h1 span{color:var(--blue-500)}
+  .desc{font-size:23px;color:var(--gray);margin-top:22px;line-height:1.6;max-width:660px}
+  .cta{display:inline-flex;align-items:center;gap:12px;margin-top:36px;
+    background:var(--blue-700);color:#fff;font-weight:600;font-size:22px;
+    padding:18px 42px;border-radius:10px;box-shadow:0 12px 30px rgba(29,79,168,.25)}
+  .cta svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;
+    stroke-linecap:round;stroke-linejoin:round}
+
+  .chip{position:absolute;font-size:15px;font-weight:600;letter-spacing:.22em;z-index:6;
+    padding:10px 20px;border-radius:8px}
+</style>
+</head>
+<body>
+  <div class="panel p1"></div>
+  <div class="panel p2"></div>
+  <div class="panel p3"></div>
+
+  <svg class="circuit" viewBox="0 0 1920 600" fill="none">
+    <!-- circuit traces -->
+    <path d="M1000 130 H1320 L1410 220 H1700" stroke="#2e7cd6" stroke-width="2" opacity=".55"/>
+    <path d="M1040 470 H1290 L1370 380 H1650" stroke="#2e7cd6" stroke-width="2" opacity=".55"/>
+    <path d="M1100 300 H1440" stroke="#1d4fa8" stroke-width="2" opacity=".7"/>
+    <circle cx="1000" cy="130" r="6" fill="#7fb8f0"/>
+    <circle cx="1040" cy="470" r="6" fill="#7fb8f0"/>
+    <circle cx="1100" cy="300" r="6" fill="#2e7cd6"/>
+    <circle cx="1700" cy="220" r="6" fill="#fff" stroke="#1d4fa8" stroke-width="2"/>
+    <circle cx="1650" cy="380" r="6" fill="#fff" stroke="#1d4fa8" stroke-width="2"/>
+    <circle cx="1440" cy="300" r="6" fill="#1d4fa8"/>
+    <!-- gear arcs on deep panel -->
+    <g stroke-linecap="round" fill="none">
+      <path d="M1790 120 A120 120 0 0 1 1880 220" stroke="#7fb8f0" stroke-width="20" opacity=".9"/>
+      <path d="M1850 400 A120 120 0 0 1 1740 480" stroke="#cfe3f9" stroke-width="20" opacity=".9"/>
+    </g>
+    <!-- dotted ascent -->
+    <polyline points="1680,560 1750,480 1800,505 1860,400 1900,330" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+    <circle cx="1900" cy="330" r="7" fill="#ffffff"/>
+    <!-- floating squares -->
+    <rect x="1240" y="80" width="20" height="20" stroke="#2e7cd6" stroke-width="2" opacity=".6"/>
+    <rect x="1560" y="500" width="14" height="14" fill="#1d4fa8" opacity=".5"/>
+  </svg>
+
+  <span class="chip" style="right:110px;top:64px;background:rgba(255,255,255,.92);color:var(--blue-700)">JIKU</span>
+  <span class="chip" style="right:360px;bottom:64px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.55)">24/7 · IA</span>
+
+  <div class="logo"></div>
+
+  <div class="content">
+    <h1>Lleva tu negocio<br/><span>a la cima</span></h1>
+    <p class="desc">Chatbots, redes sociales y procesos automatizados para negocios locales.</p>
+    <span class="cta">Agenda tu consulta gratis
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </span>
+  </div>
+</body>
+</html>
