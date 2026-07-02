@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [claude/website-watermark-removal-aatk55, main, master]
+    branches: [claude/web-clone-editable-11pc4t, claude/website-watermark-removal-aatk55, main, master]
   workflow_dispatch:
 
 permissions:

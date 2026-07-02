@@ -3,949 +3,752 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Peak AI</title>
+  <title>JIKU SOLUTIONS — Automatización con IA</title>
   <meta name="description" content="Agencia de automatización impulsada por IA que escala negocios locales mediante chatbots, redes sociales y optimización de procesos." />
-  <meta property="og:title" content="Peak AI" />
+  <meta property="og:title" content="JIKU SOLUTIONS" />
   <meta property="og:description" content="Agencia de automatización impulsada por IA que escala negocios locales mediante chatbots, redes sociales y optimización de procesos." />
-  <meta property="og:image" content="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/efe6dc942_ChatGPTImageMay18202606_05_34PM.png/v1/fill/w_1200,h_630/efe6dc942_ChatGPTImageMay18202606_05_34PM.png" />
-  <meta property="og:url" content="https://peakaiservices.base44.app" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/4e328bc8b_ChatGPTImageMay18202606_05_34PM.png" />
+  <link rel="icon" href="assets/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <style>
+    /* ==========================================================================
+       PALETA DE COLORES Y AJUSTES GLOBALES
+       Cambia estos valores para modificar los colores de toda la web.
+       ========================================================================== */
     :root {
-      --background: hsl(213, 45%, 10%);
-      --foreground: hsl(42, 40%, 90%);
-      --card: hsl(213, 40%, 13%);
-      --card-foreground: hsl(42, 40%, 90%);
-      --primary: hsl(9, 68%, 47%);
-      --primary-hover: hsl(9, 68%, 40%);
-      --secondary: hsl(213, 35%, 17%);
-      --muted-foreground: hsl(42, 20%, 55%);
-      --accent: hsl(213, 35%, 20%);
-      --border: hsl(213, 30%, 18%);
-      --radius: 0.5rem;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-body: 'Space Grotesk', sans-serif;
-      --font-mono: 'Space Mono', monospace;
+      --fondo:            hsl(210, 40%, 98%);   /* fondo general claro */
+      --texto:            hsl(222, 47%, 11%);   /* texto principal oscuro */
+      --texto-suave:      hsl(215, 16%, 47%);   /* texto secundario gris */
+      --azul:             hsl(217, 91%, 53%);   /* azul principal */
+      --azul-oscuro:      hsl(217, 91%, 40%);
+      --morado:           hsl(258, 84%, 58%);   /* morado del degradado */
+      --morado-claro:     hsl(270, 90%, 65%);
+      --rojo-acento:      hsl(352, 70%, 52%);   /* brillo rojizo de los degradados */
+      --tarjeta:          hsl(0, 0%, 100%);     /* fondo de tarjetas */
+      --borde:            hsl(214, 32%, 91%);
+      --pastilla-fondo:   hsl(210, 100%, 95%);  /* fondo de las etiquetas tipo pastilla */
+      --fuente:           'Sora', sans-serif;
+      --radio:            1rem;                 /* redondeo de las tarjetas */
     }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background-color: var(--background);
-      color: var(--foreground);
-      font-family: var(--font-body);
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: var(--fuente);
       line-height: 1.6;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-
+    img { max-width: 100%; display: block; }
     a { text-decoration: none; color: inherit; }
+    .contenedor { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
 
-    /* ── UTILITIES ── */
-    .container {
-      max-width: 80rem;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
+    /* Animación de aparición al hacer scroll */
+    .revelar { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .revelar.visible { opacity: 1; transform: translateY(0); }
 
-    .mono-label {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: 0.25em;
+    /* Etiquetas tipo pastilla (SERVICIOS, POR QUÉ JIKU, ...) */
+    .pastilla {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .18em;
       text-transform: uppercase;
+      background: var(--pastilla-fondo);
+      color: var(--azul);
     }
 
-    .btn {
+    /* Botones */
+    .boton {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-body);
-      font-weight: 600;
+      gap: 8px;
+      padding: 15px 30px;
+      border-radius: 999px;
+      font-family: var(--fuente);
       font-size: 1rem;
-      padding: 0.875rem 2rem;
-      border-radius: 0.125rem;
+      font-weight: 600;
       cursor: pointer;
       border: none;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      letter-spacing: 0.03em;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
     }
+    .boton:hover { transform: translateY(-2px); }
+    .boton-blanco { background: #fff; color: var(--azul); box-shadow: 0 10px 30px rgba(0,0,0,.15); }
+    .boton-translucido { background: rgba(255,255,255,.16); color: #fff; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.25); }
+    .boton-translucido:hover { background: rgba(255,255,255,.26); }
 
-    .btn-primary {
-      background-color: var(--primary);
-      color: hsl(42, 40%, 95%);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-      transform: scale(1.03);
-      box-shadow: 0 10px 30px hsla(9, 68%, 47%, 0.25);
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      color: var(--foreground);
-      border: 1px solid hsla(213, 30%, 18%, 0.8);
-    }
-
-    .btn-outline:hover {
-      background-color: var(--secondary);
-      border-color: hsla(9, 68%, 47%, 0.3);
-    }
-
-    .btn svg {
-      transition: transform 0.3s ease;
-    }
-    .btn:hover svg {
-      transform: translateX(3px);
-    }
-
-    /* ── NAVBAR ── */
-    nav {
+    /* ==========================================================================
+       BARRA DE NAVEGACIÓN
+       ========================================================================== */
+    .navegacion {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background-color: hsla(213, 45%, 10%, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      transition: background .3s ease, box-shadow .3s ease;
     }
-
-    .nav-inner {
+    .navegacion .contenedor {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 4rem;
+      height: 68px;
     }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.625rem;
-    }
-
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
     .nav-logo img {
-      height: 2rem;
-      width: auto;
+      width: 42px; height: 42px;
+      background: #fff;
+      border-radius: 8px;
+      padding: 5px;
+      object-fit: contain;
     }
-
-    .nav-logo-text {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: 0.05em;
-      color: var(--foreground);
+    .nav-enlaces { display: flex; align-items: center; gap: 34px; }
+    .nav-enlaces a { font-weight: 600; font-size: .95rem; color: #fff; transition: opacity .2s; }
+    .nav-enlaces a:hover { opacity: .75; }
+    .nav-contactar {
+      background: linear-gradient(120deg, var(--azul), var(--morado-claro));
+      color: #fff !important;
+      padding: 10px 26px;
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(80, 60, 220, .35);
     }
+    /* Cuando se hace scroll, la barra se vuelve clara */
+    .navegacion.con-fondo { background: rgba(255,255,255,.85); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--borde); }
+    .navegacion.con-fondo .nav-enlaces a:not(.nav-contactar) { color: var(--texto-suave); }
 
-    .nav-logo-text span {
-      color: var(--primary);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--muted-foreground);
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--foreground);
-    }
-
-    .nav-cta {
-      padding: 0.5rem 1.25rem;
-      font-size: 0.875rem;
-    }
-
-    .nav-mobile-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--foreground);
-      cursor: pointer;
-    }
-
-    /* ── HERO ── */
-    #hero {
+    /* ==========================================================================
+       SECCIÓN HERO (portada)
+       ========================================================================== */
+    .hero {
+      position: relative;
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 6rem 0 4rem;
-      position: relative;
+      padding: 130px 0 160px;
+      color: #fff;
+      background:
+        radial-gradient(at 100% 100%, hsla(352, 70%, 52%, .55) 0%, transparent 42%),
+        radial-gradient(at 85% 20%, hsla(270, 90%, 62%, .9) 0%, transparent 55%),
+        linear-gradient(115deg, hsl(222, 85%, 45%) 0%, hsl(230, 80%, 52%) 40%, hsl(262, 80%, 56%) 100%);
       overflow: hidden;
     }
-
-    .hero-grid {
+    .hero .contenedor {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 60px;
       align-items: center;
+      position: relative;
+      z-index: 2;
     }
-
-    .hero-content {
-      max-width: 36rem;
+    .hero-pastilla {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff;
+      backdrop-filter: blur(6px);
     }
-
-    .hero-eyebrow {
-      margin-bottom: 1.25rem;
+    .hero-pastilla .punto { width: 7px; height: 7px; border-radius: 50%; background: #7dd3fc; }
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.6rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      margin: 22px 0 26px;
     }
+    .hero h1 .resaltado { color: hsl(228, 96%, 84%); }
+    .hero-texto p { max-width: 480px; font-size: 1.05rem; color: hsla(220, 60%, 92%, .92); margin-bottom: 34px; }
+    .hero-botones { display: flex; flex-wrap: wrap; gap: 16px; }
 
-    .hero-title {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      color: var(--foreground);
-      margin-top: 1.25rem;
-    }
-
-    .hero-title span {
-      color: var(--primary);
-    }
-
-    .hero-desc {
-      font-size: 1.125rem;
-      color: var(--muted-foreground);
-      margin-top: 1.5rem;
-      line-height: 1.75;
-      max-width: 32rem;
-    }
-
-    .hero-actions {
+    /* Tarjeta con el logo a la derecha del hero */
+    .hero-visual { position: relative; display: flex; justify-content: center; }
+    .hero-marco {
+      width: min(420px, 100%);
+      aspect-ratio: 1 / 1;
+      border-radius: 36px;
+      background: linear-gradient(150deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.28);
+      backdrop-filter: blur(10px);
       display: flex;
-      gap: 1rem;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
-    }
-
-    .hero-image {
-      display: flex;
+      align-items: center;
       justify-content: center;
+      box-shadow: 0 30px 80px rgba(30, 10, 90, .35);
+    }
+    .hero-marco .tarjeta-logo {
+      width: 68%;
+      aspect-ratio: 1 / 1;
+      background: #fff;
+      border-radius: 20px;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 50px rgba(20, 10, 60, .3);
     }
-
-    .hero-image img {
-      width: 100%;
-      max-width: 26rem;
-      border-radius: 1rem;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.4);
-    }
-
-    /* Hero background blobs */
-    .hero-blob {
+    .hero-marco .tarjeta-logo img { width: 62%; object-fit: contain; }
+    .destello {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.12;
+      background: rgba(255,255,255,.85);
+      filter: blur(1px);
+      animation: parpadeo 3s ease-in-out infinite;
+    }
+    .destello.a { width: 10px; height: 10px; top: 4%; right: 6%; }
+    .destello.b { width: 8px; height: 8px; bottom: 2%; left: 4%; animation-delay: 1.4s; }
+    @keyframes parpadeo { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+    /* Onda blanca que separa el hero de la siguiente sección */
+    .hero-onda { position: absolute; bottom: -1px; left: 0; right: 0; z-index: 1; }
+    .hero-onda svg { display: block; width: 100%; height: 90px; }
+
+    /* ==========================================================================
+       SECCIÓN SERVICIOS
+       ========================================================================== */
+    .seccion { padding: 110px 0; position: relative; }
+    .cabecera-seccion h2 {
+      font-size: clamp(2rem, 4.4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      margin: 20px 0 18px;
+    }
+    .degradado-texto {
+      background: linear-gradient(100deg, var(--azul), var(--morado-claro));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cabecera-seccion p { max-width: 560px; color: var(--texto-suave); font-size: 1.02rem; }
+
+    .rejilla-servicios {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 60px;
+    }
+    .tarjeta {
+      background: var(--tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      padding: 36px 32px;
+      box-shadow: 0 8px 30px rgba(30, 40, 90, .06);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .tarjeta:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(30, 40, 90, .12); }
+    .icono-caja {
+      width: 54px; height: 54px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--azul), var(--morado-claro));
+      color: #fff;
+      margin-bottom: 26px;
+      box-shadow: 0 8px 20px rgba(80, 70, 220, .3);
+    }
+    .icono-caja svg { width: 26px; height: 26px; }
+    .tarjeta h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+    .tarjeta > p { color: var(--texto-suave); font-size: .95rem; margin-bottom: 22px; }
+    .lista-check { list-style: none; display: grid; gap: 12px; }
+    .lista-check li { display: flex; gap: 12px; align-items: flex-start; font-size: .92rem; color: var(--texto); }
+    .lista-check .check {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--pastilla-fondo);
+      color: var(--azul);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+    .lista-check .check svg { width: 12px; height: 12px; }
+
+    /* ==========================================================================
+       SECCIÓN POR QUÉ JIKU
+       ========================================================================== */
+    .porque { text-align: center; }
+    .porque .cabecera-seccion p { margin: 0 auto; }
+    .rejilla-porque {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+      text-align: left;
+    }
+    .tarjeta-porque {
+      background: linear-gradient(160deg, hsl(220, 60%, 97%), #fff);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      padding: 30px 26px;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .tarjeta-porque:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(30, 40, 90, .1); }
+    .tarjeta-porque .icono-caja { width: 46px; height: 46px; border-radius: 12px; margin-bottom: 20px; }
+    .tarjeta-porque .icono-caja svg { width: 22px; height: 22px; }
+    .tarjeta-porque h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+    .tarjeta-porque p { color: var(--texto-suave); font-size: .9rem; }
+
+    /* Manchas decorativas difuminadas del fondo */
+    .mancha {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .5;
       pointer-events: none;
     }
 
-    .hero-blob-1 {
-      width: 40rem;
-      height: 40rem;
-      background: var(--primary);
-      top: -10rem;
-      right: -10rem;
-    }
-
-    .hero-blob-2 {
-      width: 24rem;
-      height: 24rem;
-      background: hsl(213, 60%, 40%);
-      bottom: 0;
-      left: -8rem;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border), transparent);
-    }
-
-    /* ── SERVICES ── */
-    #servicios {
-      padding: 6rem 0 8rem;
+    /* ==========================================================================
+       SECCIÓN CTA (llamada final a la acción)
+       ========================================================================== */
+    .cta {
       position: relative;
-    }
-
-    .section-header {
-      max-width: 38rem;
-      margin-bottom: 4rem;
-    }
-
-    .section-header h2 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: clamp(1.875rem, 4vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--foreground);
-      margin-top: 1rem;
-    }
-
-    .section-header p {
-      color: var(--muted-foreground);
-      margin-top: 1rem;
-      line-height: 1.75;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    .service-card {
-      background-color: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      transition: border-color 0.3s, transform 0.3s;
-      position: relative;
+      padding: 150px 0;
+      text-align: center;
+      color: #fff;
+      background:
+        radial-gradient(at 100% 85%, hsla(352, 75%, 50%, .75) 0%, transparent 40%),
+        radial-gradient(at 15% 10%, hsla(230, 85%, 55%, .9) 0%, transparent 55%),
+        linear-gradient(115deg, hsl(235, 80%, 52%) 0%, hsl(262, 82%, 55%) 60%, hsl(285, 75%, 52%) 100%);
       overflow: hidden;
     }
-
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(to right, var(--primary), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+    .cta .pastilla { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); color: #fff; }
+    .cta h2 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      margin: 24px auto 22px;
+      max-width: 800px;
     }
+    .cta > .contenedor > p { max-width: 620px; margin: 0 auto 42px; color: hsla(220, 60%, 94%, .92); font-size: 1.05rem; }
+    .cta-nota { margin-top: 26px; font-size: .88rem; letter-spacing: .04em; color: hsla(220, 60%, 94%, .75); }
 
-    .service-card:hover {
-      border-color: hsla(9, 68%, 47%, 0.3);
-      transform: translateY(-2px);
+    /* ==========================================================================
+       PIE DE PÁGINA
+       ========================================================================== */
+    .pie {
+      background: hsl(228, 45%, 94%);
+      padding: 80px 0 0;
+      color: var(--texto);
     }
-
-    .service-card:hover::before {
-      opacity: 1;
+    .pie-rejilla {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1.2fr;
+      gap: 50px;
+      padding-bottom: 60px;
     }
-
-    .service-icon {
-      width: 3rem;
-      height: 3rem;
-      background: hsla(9, 68%, 47%, 0.12);
-      border-radius: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.25rem;
-    }
-
-    .service-icon svg {
-      width: 1.5rem;
-      height: 1.5rem;
-      color: var(--primary);
-      stroke: var(--primary);
-      fill: none;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .service-card h3 {
-      font-family: var(--font-heading);
+    .pie-logo img { width: 42px; height: 42px; background: #fff; border-radius: 8px; padding: 5px; object-fit: contain; margin-bottom: 20px; }
+    .pie-rejilla > div > p { color: var(--texto-suave); font-size: .92rem; max-width: 320px; }
+    .pie h4 {
+      font-size: .78rem;
       font-weight: 600;
-      font-size: 1.125rem;
-      color: var(--foreground);
-      margin-bottom: 0.75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--texto-suave);
+      margin-bottom: 22px;
     }
-
-    .service-card > p {
-      font-size: 0.875rem;
-      color: var(--muted-foreground);
-      line-height: 1.75;
-      margin-bottom: 1.5rem;
-    }
-
-    .service-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.625rem;
-    }
-
-    .service-features li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.625rem;
-      font-size: 0.8125rem;
-      color: var(--muted-foreground);
-    }
-
-    .feature-dot {
-      width: 0.375rem;
-      height: 0.375rem;
+    .pie-nav { list-style: none; display: grid; gap: 14px; }
+    .pie-nav a { color: var(--texto); font-size: .95rem; transition: color .2s; }
+    .pie-nav a:hover { color: var(--azul); }
+    .pie-contacto { list-style: none; display: grid; gap: 16px; }
+    .pie-contacto li { display: flex; align-items: center; gap: 14px; font-size: .95rem; }
+    .pie-contacto .icono-redondo {
+      width: 36px; height: 36px;
       border-radius: 50%;
-      background: var(--primary);
+      background: var(--pastilla-fondo);
+      color: var(--azul);
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
-      margin-top: 0.4rem;
     }
-
-    /* ── WHY PEAK ── */
-    #porque {
-      padding: 6rem 0;
-      background-color: hsla(213, 35%, 17%, 0.6);
-      position: relative;
-    }
-
-    .why-header {
-      text-align: center;
-      max-width: 38rem;
-      margin: 0 auto 4rem;
-    }
-
-    .why-header h2 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: clamp(1.875rem, 4vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--foreground);
-      margin-top: 1rem;
-    }
-
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-
-    .why-card {
-      background: var(--accent);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      transition: border-color 0.3s;
-    }
-
-    .why-card:hover {
-      border-color: hsla(9, 68%, 47%, 0.3);
-    }
-
-    .why-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      background: hsla(9, 68%, 47%, 0.12);
-      border-radius: 0.375rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
-
-    .why-icon svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      stroke: var(--primary);
-      fill: none;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .why-card h3 {
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--foreground);
-      margin-bottom: 0.5rem;
-    }
-
-    .why-card p {
-      font-size: 0.875rem;
-      color: var(--muted-foreground);
-      line-height: 1.75;
-    }
-
-    /* ── CONTACT ── */
-    #contacto {
-      padding: 6rem 0 8rem;
-      text-align: center;
-    }
-
-    .contact-inner {
-      max-width: 42rem;
-      margin: 0 auto;
-    }
-
-    .contact-inner h2 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: clamp(1.875rem, 4vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--foreground);
-      margin-top: 1.25rem;
-    }
-
-    .contact-inner p {
-      color: var(--muted-foreground);
-      margin-top: 1.25rem;
-      line-height: 1.75;
-      font-size: 1rem;
-    }
-
-    .contact-inner .btn {
-      margin-top: 2.5rem;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 3rem 0;
-    }
-
-    .footer-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 2rem;
-      align-items: start;
-    }
-
-    .footer-brand h3 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.625rem;
-    }
-
-    .footer-brand h3 span {
-      color: var(--primary);
-    }
-
-    .footer-brand p {
-      font-size: 0.8125rem;
-      color: var(--muted-foreground);
-      line-height: 1.75;
-      max-width: 20rem;
-    }
-
-    .footer-links h4 {
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--foreground);
-      margin-bottom: 1rem;
-    }
-
-    .footer-links ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .footer-links li a {
-      font-size: 0.8125rem;
-      color: var(--muted-foreground);
-      transition: color 0.2s;
-    }
-
-    .footer-links li a:hover {
-      color: var(--foreground);
-    }
-
-    .footer-contact h4 {
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--foreground);
-      margin-bottom: 1rem;
-    }
-
-    .footer-contact a {
-      font-size: 0.8125rem;
-      color: var(--muted-foreground);
-      display: block;
-      transition: color 0.2s;
-      margin-bottom: 0.375rem;
-    }
-
-    .footer-contact a:hover {
-      color: var(--foreground);
-    }
-
-    .footer-bottom {
-      border-top: 1px solid var(--border);
-      margin-top: 2rem;
-      padding-top: 1.5rem;
+    .pie-contacto .icono-redondo svg { width: 16px; height: 16px; }
+    .pie-inferior {
+      border-top: 1px solid hsl(225, 30%, 86%);
+      padding: 26px 0;
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: .85rem;
+      color: var(--texto-suave);
+    }
+
+    /* ==========================================================================
+       MODO EDICIÓN (añade ?editar al final de la URL para activarlo)
+       ========================================================================== */
+    body.editando [data-editable] { outline: 2px dashed rgba(37, 99, 235, .55); outline-offset: 4px; border-radius: 4px; cursor: text; }
+    body.editando [data-editable]:hover { outline-color: var(--rojo-acento); }
+    .barra-edicion {
+      display: none;
+      position: fixed;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: hsl(222, 47%, 13%);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
       align-items: center;
-      gap: 1rem;
+      gap: 8px;
+      font-size: .88rem;
     }
-
-    .footer-bottom p {
-      font-size: 0.75rem;
-      color: var(--muted-foreground);
+    body.editando .barra-edicion { display: flex; }
+    .barra-edicion span { padding: 0 8px; opacity: .8; }
+    .barra-edicion button {
+      border: none;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-family: var(--fuente);
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: opacity .2s;
     }
+    .barra-edicion button:hover { opacity: .85; }
+    .btn-descargar { background: var(--azul); color: #fff; }
+    .btn-restablecer { background: hsl(222, 30%, 28%); color: #fff; }
+    .btn-salir { background: hsl(222, 30%, 22%); color: #fff; }
 
-    .footer-tagline {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: hsl(213, 30%, 30%);
-    }
-
-    /* ── RESPONSIVE ── */
+    /* ==========================================================================
+       DISEÑO ADAPTABLE (móvil y tablet)
+       ========================================================================== */
     @media (max-width: 1024px) {
-      .why-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .rejilla-servicios { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
+      .rejilla-porque { grid-template-columns: repeat(2, 1fr); }
+      .hero .contenedor { grid-template-columns: 1fr; text-align: center; }
+      .hero-texto p { margin-left: auto; margin-right: auto; }
+      .hero-botones { justify-content: center; }
+      .hero-visual { order: -1; }
+      .hero-marco { width: min(300px, 80%); }
     }
-
-    @media (max-width: 768px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .hero-image {
-        display: none;
-      }
-
-      .hero-actions {
-        justify-content: center;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .why-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .footer-inner {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .nav-mobile-toggle {
-        display: block;
-      }
+    @media (max-width: 640px) {
+      .nav-enlaces a:not(.nav-contactar) { display: none; }
+      .rejilla-porque { grid-template-columns: 1fr; }
+      .pie-rejilla { grid-template-columns: 1fr; gap: 40px; }
+      .seccion { padding: 80px 0; }
+      .cta { padding: 110px 0; }
     }
-
-    @media (max-width: 480px) {
-      .why-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-in-up {
-      animation: fadeInUp 0.7s ease forwards;
-    }
-
-    .delay-1 { animation-delay: 0.1s; opacity: 0; }
-    .delay-2 { animation-delay: 0.2s; opacity: 0; }
-    .delay-3 { animation-delay: 0.35s; opacity: 0; }
-    .delay-4 { animation-delay: 0.5s; opacity: 0; }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav>
-    <div class="container nav-inner">
-      <a href="#hero" class="nav-logo">
-        <img src="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/db409e7fa_ChatGPTImageMay18202606_05_34PM.png" alt="Peak AI Logo" />
-        <span class="nav-logo-text">PEAK <span>AI</span></span>
+  <!-- ======================================================================
+       BARRA DE NAVEGACIÓN
+       ====================================================================== -->
+  <nav class="navegacion" id="navegacion">
+    <div class="contenedor">
+      <a href="#inicio" class="nav-logo">
+        <img src="assets/logo.png" alt="JIKU SOLUTIONS" />
       </a>
-      <ul class="nav-links">
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#porque">Por qué Peak</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-      <a href="#contacto" class="btn btn-primary nav-cta">Agenda una consulta</a>
-      <button class="nav-mobile-toggle" aria-label="Menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-      </button>
+      <div class="nav-enlaces">
+        <a href="#servicios" data-editable="nav-servicios">Servicios</a>
+        <a href="#porque" data-editable="nav-porque">Por qué JIKU</a>
+        <a href="#contacto" class="nav-contactar" data-editable="nav-contactar">Contactar</a>
+      </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="hero-eyebrow mono-label fade-in-up">// Automatización con IA</div>
-        <h1 class="hero-title fade-in-up delay-1">
-          Lleva tu negocio <span>a la cima</span>
-        </h1>
-        <p class="hero-desc fade-in-up delay-2">
-          Automatizamos las tareas que te roban tiempo para que puedas enfocarte en lo que más importa: hacer crecer tu negocio.
-        </p>
-        <div class="hero-actions fade-in-up delay-3">
-          <a href="#contacto" class="btn btn-primary">
-            Agenda tu consulta gratis
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-            </svg>
+  <!-- ======================================================================
+       HERO (portada)
+       ====================================================================== -->
+  <header class="hero" id="inicio">
+    <div class="contenedor">
+      <div class="hero-texto">
+        <span class="pastilla hero-pastilla"><span class="punto"></span><span data-editable="hero-pastilla">Soluciones con IA</span></span>
+        <h1 data-editable="hero-titulo">Lleva tu negocio<br /><span class="resaltado">a la cima</span></h1>
+        <p data-editable="hero-parrafo">Automatizamos las tareas que te roban tiempo para que puedas enfocarte en lo que más importa: hacer crecer tu negocio.</p>
+        <div class="hero-botones">
+          <a href="#contacto" class="boton boton-blanco"><span data-editable="hero-boton-1">Agenda tu consulta gratis</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href="#servicios" class="btn btn-outline">Ver servicios</a>
+          <a href="#servicios" class="boton boton-translucido" data-editable="hero-boton-2">Ver servicios</a>
         </div>
       </div>
-      <div class="hero-image fade-in-up delay-4">
-        <img
-          src="https://media.base44.com/images/public/6a0baacf0e4296f296e3dbf7/db409e7fa_ChatGPTImageMay18202606_05_34PM.png"
-          alt="Peak AI"
-        />
+      <div class="hero-visual">
+        <div class="hero-marco">
+          <div class="tarjeta-logo">
+            <img src="assets/logo.png" alt="JIKU SOLUTIONS Logo" />
+          </div>
+        </div>
+        <span class="destello a"></span>
+        <span class="destello b"></span>
+      </div>
+    </div>
+    <div class="hero-onda">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+        <path d="M0,60 C240,100 480,20 720,40 C960,60 1200,90 1440,50 L1440,90 L0,90 Z" fill="hsl(210, 40%, 98%)"/>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       SECCIÓN SERVICIOS
+       ====================================================================== -->
+  <section class="seccion" id="servicios">
+    <div class="mancha" style="width:400px;height:400px;background:hsl(217,91%,85%);top:10%;left:-140px;"></div>
+    <div class="mancha" style="width:360px;height:360px;background:hsl(270,80%,88%);bottom:0;right:-120px;"></div>
+    <div class="contenedor">
+      <div class="cabecera-seccion revelar">
+        <span class="pastilla" data-editable="servicios-pastilla">Servicios</span>
+        <h2 data-editable="servicios-titulo">Todo lo que tu negocio<br />necesita <span class="degradado-texto">para crecer</span></h2>
+        <p data-editable="servicios-parrafo">Soluciones de JIKU diseñadas para negocios locales que quieren competir con las grandes marcas sin perder su esencia.</p>
+      </div>
+
+      <div class="rejilla-servicios">
+        <!-- Tarjeta 1: Módulo de Presencia -->
+        <article class="tarjeta revelar">
+          <div class="icono-caja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3 data-editable="servicio-1-titulo">Módulo de Presencia</h3>
+          <p data-editable="servicio-1-descripcion">Tu marca visible las 24 horas. Diseñamos tu página web y gestionamos tus redes sociales con inteligencia artificial.</p>
+          <ul class="lista-check" data-editable="servicio-1-lista">
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Página web optimizada para conversión</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Contenido para redes generado con IA</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Programación y publicación automática</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Análisis de rendimiento mensual</li>
+          </ul>
+        </article>
+
+        <!-- Tarjeta 2: Módulo de Atención -->
+        <article class="tarjeta revelar">
+          <div class="icono-caja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/></svg>
+          </div>
+          <h3 data-editable="servicio-2-titulo">Módulo de Atención</h3>
+          <p data-editable="servicio-2-descripcion">Un asistente virtual que atiende, responde y agenda por ti. Tus clientes reciben atención instantánea, sin esperas.</p>
+          <ul class="lista-check" data-editable="servicio-2-lista">
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Chatbot inteligente en tu web y WhatsApp</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Respuestas personalizadas a cada cliente</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Reservas y citas automatizadas</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Disponible 24/7, sin costo extra de personal</li>
+          </ul>
+        </article>
+
+        <!-- Tarjeta 3: Módulo de Optimización -->
+        <article class="tarjeta revelar">
+          <div class="icono-caja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3 data-editable="servicio-3-titulo">Módulo de Optimización</h3>
+          <p data-editable="servicio-3-descripcion">Elimina las tareas repetitivas que te roban tiempo. Automatizamos tus procesos internos para que te enfoques en crecer.</p>
+          <ul class="lista-check" data-editable="servicio-3-lista">
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Facturación y recordatorios automáticos</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Seguimiento de clientes y leads</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Integración con tus herramientas actuales</li>
+            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Reportes inteligentes de tu negocio</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <!-- SERVICES -->
-  <section id="servicios">
-    <div class="container">
-      <div class="section-header">
-        <span class="mono-label">// Servicios</span>
-        <h2>Todo lo que tu negocio necesita para crecer</h2>
-        <p>Tres módulos diseñados para negocios locales que quieren competir con las grandes marcas sin perder su esencia.</p>
+  <!-- ======================================================================
+       SECCIÓN POR QUÉ JIKU
+       ====================================================================== -->
+  <section class="seccion porque" id="porque">
+    <div class="mancha" style="width:420px;height:420px;background:hsl(230,85%,88%);top:20%;left:8%;"></div>
+    <div class="mancha" style="width:380px;height:380px;background:hsl(275,80%,90%);bottom:5%;right:5%;"></div>
+    <div class="contenedor">
+      <div class="cabecera-seccion revelar">
+        <span class="pastilla" data-editable="porque-pastilla">Por qué JIKU</span>
+        <h2 data-editable="porque-titulo">La agencia que <span class="degradado-texto">entiende tu negocio</span></h2>
       </div>
-      <div class="services-grid">
 
-        <!-- Módulo de Presencia -->
-        <div class="service-card">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-            </svg>
+      <div class="rejilla-porque">
+        <!-- Tarjeta 1 -->
+        <article class="tarjeta-porque revelar">
+          <div class="icono-caja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></svg>
           </div>
-          <h3>Módulo de Presencia</h3>
-          <p>Tu marca visible las 24 horas. Diseñamos tu página web y gestionamos tus redes sociales con inteligencia artificial.</p>
-          <ul class="service-features">
-            <li><span class="feature-dot"></span>Página web optimizada para conversión</li>
-            <li><span class="feature-dot"></span>Contenido para redes generado con IA</li>
-            <li><span class="feature-dot"></span>Programación y publicación automática</li>
-            <li><span class="feature-dot"></span>Análisis de rendimiento mensual</li>
-          </ul>
-        </div>
+          <h3 data-editable="porque-1-titulo">Pensado para ti</h3>
+          <p data-editable="porque-1-texto">No somos una agencia genérica. Cada solución se diseña para las necesidades reales de tu negocio local.</p>
+        </article>
 
-        <!-- Módulo de Atención -->
-        <div class="service-card">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+        <!-- Tarjeta 2 -->
+        <article class="tarjeta-porque revelar">
+          <div class="icono-caja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
-          <h3>Módulo de Atención</h3>
-          <p>Un asistente virtual que atiende, responde y agenda por ti. Tus clientes reciben atención instantánea, sin esperas.</p>
-          <ul class="service-features">
-            <li><span class="feature-dot"></span>Chatbot inteligente en tu web y WhatsApp</li>
-            <li><span class="feature-dot"></span>Respuestas personalizadas a cada cliente</li>
-            <li><span class="feature-dot"></span>Reservas y citas automatizadas</li>
-            <li><span class="feature-dot"></span>Disponible 24/7, sin costo extra de personal</li>
-          </ul>
-        </div>
+          <h3 data-editable="porque-2-titulo">Resultados rápidos</h3>
+          <p data-editable="porque-2-texto">En menos de 2 semanas tu negocio ya tiene presencia digital profesional y automatizaciones funcionando.</p>
+        </article>
 
-        <!-- Módulo de Optimización -->
-        <div class="service-card">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
-            </svg>
+        <!-- Tarjeta 3 -->
+        <article class="tarjeta-porque revelar">
+          <div class="icono-caja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
           </div>
-          <h3>Módulo de Optimización</h3>
-          <p>Elimina las tareas repetitivas que te roban tiempo. Automatizamos tus procesos internos para que te enfoques en crecer.</p>
-          <ul class="service-features">
-            <li><span class="feature-dot"></span>Facturación y recordatorios automáticos</li>
-            <li><span class="feature-dot"></span>Seguimiento de clientes y leads</li>
-            <li><span class="feature-dot"></span>Integración con tus herramientas actuales</li>
-            <li><span class="feature-dot"></span>Reportes inteligentes de tu negocio</li>
-          </ul>
-        </div>
+          <h3 data-editable="porque-3-titulo">Sin complicaciones</h3>
+          <p data-editable="porque-3-texto">Tú manejas tu negocio, nosotros nos encargamos de la tecnología. Sin jerga técnica, sin dolores de cabeza.</p>
+        </article>
 
+        <!-- Tarjeta 4 -->
+        <article class="tarjeta-porque revelar">
+          <div class="icono-caja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
+          </div>
+          <h3 data-editable="porque-4-titulo">Crece sin límites</h3>
+          <p data-editable="porque-4-texto">Nuestras soluciones escalan contigo. Desde tu primer chatbot hasta la automatización total de tu operación.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <!-- WHY PEAK -->
-  <section id="porque">
-    <div class="divider" style="position:absolute;top:0;left:0;right:0;"></div>
-    <div class="container">
-      <div class="why-header">
-        <span class="mono-label">// Por qué Peak</span>
-        <h2>La agencia que entiende tu negocio</h2>
-      </div>
-      <div class="why-grid">
-
-        <div class="why-card">
-          <div class="why-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            </svg>
-          </div>
-          <h3>Pensado para ti</h3>
-          <p>No somos una agencia genérica. Cada solución se diseña para las necesidades reales de tu negocio local.</p>
-        </div>
-
-        <div class="why-card">
-          <div class="why-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="m13 2-2 2.5h3L12 7"/><path d="M10 14v-3"/><path d="M14 14v-3"/><path d="M11 19H6.9a2.9 2.9 0 0 1 0-5.8A2.9 2.9 0 0 1 12 10a2.9 2.9 0 0 1 5.1 3.2H17a3 3 0 0 1 0 6h-3"/><path d="M12 19v3"/>
-            </svg>
-          </div>
-          <h3>Resultados rápidos</h3>
-          <p>En menos de 2 semanas tu negocio ya tiene presencia digital profesional y automatizaciones funcionando.</p>
-        </div>
-
-        <div class="why-card">
-          <div class="why-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-          <h3>Sin complicaciones</h3>
-          <p>Tú manejas tu negocio, nosotros nos encargamos de la tecnología. Sin jerga técnica, sin dolores de cabeza.</p>
-        </div>
-
-        <div class="why-card">
-          <div class="why-icon">
-            <svg viewBox="0 0 24 24">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
-            </svg>
-          </div>
-          <h3>Crece sin límites</h3>
-          <p>Nuestras soluciones escalan contigo. Desde tu primer chatbot hasta la automatización total de tu operación.</p>
-        </div>
-
-      </div>
-    </div>
-    <div class="divider" style="position:absolute;bottom:0;left:0;right:0;"></div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contacto">
-    <div class="container">
-      <div class="contact-inner">
-        <span class="mono-label">// Contacto</span>
-        <h2>¿Listo para llevar tu negocio<br />a la cima?</h2>
-        <p>Agenda una consulta gratuita de 30 minutos. Analizamos tu negocio y te mostramos exactamente cómo la automatización puede ahorrarte tiempo y dinero.</p>
-        <a href="mailto:hola@peakai.com" class="btn btn-primary">
-          Contáctanos para una consulta gratis
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-          </svg>
+  <!-- ======================================================================
+       SECCIÓN CTA (llamada final a la acción)
+       ====================================================================== -->
+  <section class="cta" id="contacto">
+    <div class="contenedor">
+      <span class="pastilla revelar" data-editable="cta-pastilla">Empieza hoy</span>
+      <h2 class="revelar" data-editable="cta-titulo">¿Listo para llevar tu negocio<br />a la cima?</h2>
+      <p class="revelar" data-editable="cta-parrafo">Agenda una consulta gratuita de 30 minutos. Analizamos tu negocio y te mostramos exactamente cómo la automatización puede ahorrarte tiempo y dinero.</p>
+      <div class="revelar">
+        <a href="mailto:hola@jikusolutions.com" class="boton boton-blanco"><span data-editable="cta-boton">Contáctanos para una consulta gratis</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
+      <p class="cta-nota revelar" data-editable="cta-nota">Sin compromiso · Respuesta en menos de 24 horas</p>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <h3>PEAK <span>AI</span></h3>
-          <p>Agencia de automatización con inteligencia artificial para negocios locales que quieren crecer sin complicaciones.</p>
+  <!-- ======================================================================
+       PIE DE PÁGINA
+       ====================================================================== -->
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-rejilla">
+        <div class="pie-logo">
+          <img src="assets/logo.png" alt="JIKU SOLUTIONS" />
+          <p data-editable="pie-descripcion">Agencia de automatización con inteligencia artificial para negocios locales que quieren crecer sin complicaciones.</p>
         </div>
-        <div class="footer-links">
-          <h4>Navegación</h4>
-          <ul>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#porque">Por qué Peak</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+        <div>
+          <h4 data-editable="pie-nav-titulo">Navegación</h4>
+          <ul class="pie-nav">
+            <li><a href="#servicios" data-editable="pie-nav-1">Servicios</a></li>
+            <li><a href="#porque" data-editable="pie-nav-2">Por qué JIKU</a></li>
+            <li><a href="#contacto" data-editable="pie-nav-3">Contacto</a></li>
           </ul>
         </div>
-        <div class="footer-contact">
-          <h4>Contacto</h4>
-          <a href="mailto:hola@peakai.com">hola@peakai.com</a>
-          <a href="mailto:peakaiservices@gmail.com">peakaiservices@gmail.com</a>
+        <div>
+          <h4 data-editable="pie-contacto-titulo">Contacto</h4>
+          <ul class="pie-contacto">
+            <li>
+              <span class="icono-redondo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+              <a href="mailto:hola@jikusolutions.com" data-editable="pie-correo">hola@jikusolutions.com</a>
+            </li>
+            <li>
+              <span class="icono-redondo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+              <span data-editable="pie-telefono">+52 (55) 1234 5678</span>
+            </li>
+            <li>
+              <span class="icono-redondo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></span>
+              <span data-editable="pie-ubicacion">Ciudad de México, México</span>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>© 2026 Peak AI. Todos los derechos reservados.</p>
-        <span class="footer-tagline">Automatización para el mundo real.</span>
+      <div class="pie-inferior">
+        <span data-editable="pie-copyright">© 2026 JIKU SOLUTIONS. Todos los derechos reservados.</span>
+        <span data-editable="pie-lema">Automatización para el mundo real.</span>
       </div>
     </div>
   </footer>
 
-  <script>
-    // Mobile menu toggle
-    const toggle = document.querySelector('.nav-mobile-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    if (toggle && navLinks) {
-      toggle.addEventListener('click', () => {
-        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        navLinks.style.flexDirection = 'column';
-        navLinks.style.position = 'absolute';
-        navLinks.style.top = '4rem';
-        navLinks.style.left = '0';
-        navLinks.style.right = '0';
-        navLinks.style.background = 'hsl(213, 45%, 10%)';
-        navLinks.style.padding = '1.5rem';
-        navLinks.style.borderBottom = '1px solid hsl(213, 30%, 18%)';
-      });
-    }
+  <!-- Barra de herramientas del modo edición -->
+  <div class="barra-edicion">
+    <span>✏️ Modo edición</span>
+    <button class="btn-descargar" type="button">Descargar HTML</button>
+    <button class="btn-restablecer" type="button">Restablecer</button>
+    <button class="btn-salir" type="button">Salir</button>
+  </div>
 
-    // Intersection observer for scroll animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  <script>
+    /* ========================================================================
+       1. BARRA DE NAVEGACIÓN: se vuelve clara al hacer scroll
+       ======================================================================== */
+    const navegacion = document.getElementById('navegacion');
+    const alDesplazar = () => navegacion.classList.toggle('con-fondo', window.scrollY > 40);
+    window.addEventListener('scroll', alDesplazar);
+    alDesplazar();
+
+    /* ========================================================================
+       2. ANIMACIONES DE APARICIÓN AL HACER SCROLL
+       ======================================================================== */
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          entrada.target.classList.add('visible');
+          observador.unobserve(entrada.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.revelar').forEach((el) => observador.observe(el));
 
-    document.querySelectorAll('.service-card, .why-card').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(24px)';
-      observer.observe(el);
+    /* ========================================================================
+       3. MODO EDICIÓN
+       Cómo usarlo: abre la página añadiendo  ?editar  al final de la URL
+       (por ejemplo:  index.html?editar ). Podrás hacer clic en cualquier
+       texto y cambiarlo. Los cambios se guardan en tu navegador y con el
+       botón "Descargar HTML" obtienes el archivo ya modificado para
+       reemplazar el index.html del repositorio.
+       ======================================================================== */
+    const CLAVE_GUARDADO = 'jiku-ediciones';
+    const editables = document.querySelectorAll('[data-editable]');
+
+    // Restaurar textos guardados previamente en este navegador
+    const guardado = JSON.parse(localStorage.getItem(CLAVE_GUARDADO) || '{}');
+    editables.forEach((el) => {
+      const clave = el.dataset.editable;
+      if (guardado[clave] !== undefined) el.innerHTML = guardado[clave];
     });
-  </script>
 
+    const modoEdicion = new URLSearchParams(location.search).has('editar');
+    if (modoEdicion) {
+      document.body.classList.add('editando');
+      editables.forEach((el) => {
+        el.setAttribute('contenteditable', 'true');
+        el.setAttribute('spellcheck', 'false');
+        // Evitar que los enlaces naveguen mientras se edita
+        el.addEventListener('click', (e) => e.preventDefault());
+        el.addEventListener('input', () => {
+          guardado[el.dataset.editable] = el.innerHTML;
+          localStorage.setItem(CLAVE_GUARDADO, JSON.stringify(guardado));
+        });
+      });
+
+      // Botón: descargar una copia del HTML con los cambios aplicados
+      document.querySelector('.btn-descargar').addEventListener('click', () => {
+        const copia = document.documentElement.cloneNode(true);
+        copia.querySelectorAll('[contenteditable]').forEach((el) => {
+          el.removeAttribute('contenteditable');
+          el.removeAttribute('spellcheck');
+        });
+        copia.querySelector('body').classList.remove('editando');
+        const html = '<!DOCTYPE html>\n' + copia.outerHTML;
+        const enlace = document.createElement('a');
+        enlace.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+        enlace.download = 'index.html';
+        enlace.click();
+        URL.revokeObjectURL(enlace.href);
+      });
+
+      // Botón: volver a los textos originales
+      document.querySelector('.btn-restablecer').addEventListener('click', () => {
+        if (confirm('¿Borrar todos los cambios y volver a los textos originales?')) {
+          localStorage.removeItem(CLAVE_GUARDADO);
+          location.reload();
+        }
+      });
+
+      // Botón: salir del modo edición (los cambios quedan guardados)
+      document.querySelector('.btn-salir').addEventListener('click', () => {
+        location.href = location.pathname;
+      });
+    }
+  </script>
 </body>
 </html>
